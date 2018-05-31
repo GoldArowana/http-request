@@ -15,14 +15,16 @@ import com.king.http.request.tools.HttpParamUtils;
 import com.king.http.request.tools.HttpPathUtils;
 import com.king.http.request.tools.ProxyUtils;
 
-import javax.net.ssl.HostnameVerifier;
-import javax.net.ssl.SSLSocketFactory;
+import javax.net.ssl.*;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.CharBuffer;
+import java.security.GeneralSecurityException;
+import java.security.SecureRandom;
+import java.security.cert.X509Certificate;
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -131,16 +133,25 @@ public class HttpRequest {
         }
     }
 
-    @Override
-    public String toString() {
-        return method() + ' ' + url();
-    }
-
     public HttpURLConnection getConnection() {
         if (connection == null) {
             connection = createConnection();
         }
         return connection;
+    }
+
+    @Override
+    public String toString() {
+        return getMethod() + ' ' + getUrl();
+    }
+
+    /*-start*******************getter & setter**********************-/
+
+   /**
+     * Get whether or not exceptions thrown by {@link Closeable#close()} are ignored
+     */
+    public boolean isIgnoreCloseExceptions() {
+        return ignoreCloseExceptions;
     }
 
     /**
@@ -152,12 +163,6 @@ public class HttpRequest {
         return this;
     }
 
-    /**
-     * Get whether or not exceptions thrown by {@link Closeable#close()} are ignored
-     */
-    public boolean isIgnoreCloseExceptions() {
-        return ignoreCloseExceptions;
-    }
 
     /**
      * Specify the {@link ConnectionFactory} used to create new requests.
@@ -669,17 +674,16 @@ public class HttpRequest {
      * @return this request
      */
     public HttpRequest headers(final Map<String, String> headers) {
-        if (!headers.isEmpty())
-            for (Entry<String, String> header : headers.entrySet())
+        if (!headers.isEmpty()) {
+            for (Entry<String, String> header : headers.entrySet()) {
                 header(header);
+            }
+        }
         return this;
     }
 
     /**
      * Set header to have given entry's key as the name and value as the value
-     *
-     * @param header
-     * @return this request
      */
     public HttpRequest header(final Entry<String, String> header) {
         return header(header.getKey(), header.getValue());
@@ -813,17 +817,20 @@ public class HttpRequest {
      * @return parameter value or null if none
      */
     protected Map<String, String> getParams(final String header) {
-        if (header == null || header.length() == 0)
+        if (header == null || header.length() == 0) {
             return Collections.emptyMap();
+        }
 
         final int headerLength = header.length();
         int start = header.indexOf(';') + 1;
-        if (start == 0 || start == headerLength)
+        if (start == 0 || start == headerLength) {
             return Collections.emptyMap();
+        }
 
         int end = header.indexOf(';', start);
-        if (end == -1)
+        if (end == -1) {
             end = headerLength;
+        }
 
         Map<String, String> params = new LinkedHashMap<String, String>();
         while (start < end) {
@@ -833,12 +840,14 @@ public class HttpRequest {
                 if (name.length() > 0) {
                     String value = header.substring(nameEnd + 1, end).trim();
                     int length = value.length();
-                    if (length != 0)
+                    if (length != 0) {
                         if (length > 2 && '"' == value.charAt(0)
-                                && '"' == value.charAt(length - 1))
+                                && '"' == value.charAt(length - 1)) {
                             params.put(name, value.substring(1, length - 1));
-                        else
+                        } else {
                             params.put(name, value);
+                        }
+                    }
                 }
             }
 
@@ -1573,86 +1582,86 @@ public class HttpRequest {
     }
 
 
-    //    private static SSLSocketFactory getTrustedFactory() throws HttpRequestException {
-//        if (TRUSTED_FACTORY == null) {
-//            final TrustManager[] trustAllCerts = new TrustManager[]{new X509TrustManager() {
-//
-//                public X509Certificate[] getAcceptedIssuers() {
-//                    return new X509Certificate[0];
-//                }
-//
-//                public void checkClientTrusted(X509Certificate[] chain, String authType) {
-//                    // Intentionally left blank
-//                }
-//
-//                public void checkServerTrusted(X509Certificate[] chain, String authType) {
-//                    // Intentionally left blank
-//                }
-//            }};
-//            try {
-//                SSLContext context = SSLContext.getInstance("TLS");
-//                context.init(null, trustAllCerts, new SecureRandom());
-//                TRUSTED_FACTORY = context.getSocketFactory();
-//            } catch (GeneralSecurityException e) {
-//                IOException ioException = new IOException(
-//                        "Security exception configuring SSL context");
-//                ioException.initCause(e);
-//                throw new HttpRequestException(ioException);
-//            }
-//        }
-//
-//        return TRUSTED_FACTORY;
-//    }
+    private static SSLSocketFactory getTrustedFactory() throws HttpRequestException {
+        if (TRUSTED_FACTORY == null) {
+            final TrustManager[] trustAllCerts = new TrustManager[]{new X509TrustManager() {
 
-//    private static HostnameVerifier getTrustedVerifier() {
-//        if (TRUSTED_VERIFIER == null)
-//            TRUSTED_VERIFIER = new HostnameVerifier() {
-//
-//                public boolean verify(String hostname, SSLSession session) {
-//                    return true;
-//                }
-//            };
-//
-//        return TRUSTED_VERIFIER;
-//    }
+                public X509Certificate[] getAcceptedIssuers() {
+                    return new X509Certificate[0];
+                }
+
+                public void checkClientTrusted(X509Certificate[] chain, String authType) {
+                    // Intentionally left blank
+                }
+
+                public void checkServerTrusted(X509Certificate[] chain, String authType) {
+                    // Intentionally left blank
+                }
+            }};
+            try {
+                SSLContext context = SSLContext.getInstance("TLS");
+                context.init(null, trustAllCerts, new SecureRandom());
+                TRUSTED_FACTORY = context.getSocketFactory();
+            } catch (GeneralSecurityException e) {
+                IOException ioException = new IOException(
+                        "Security exception configuring SSL context");
+                ioException.initCause(e);
+                throw new HttpRequestException(ioException);
+            }
+        }
+
+        return TRUSTED_FACTORY;
+    }
+
+    private static HostnameVerifier getTrustedVerifier() {
+        if (TRUSTED_VERIFIER == null)
+            TRUSTED_VERIFIER = new HostnameVerifier() {
+
+                public boolean verify(String hostname, SSLSession session) {
+                    return true;
+                }
+            };
+
+        return TRUSTED_VERIFIER;
+    }
 
     /**
      * Configure HTTPS connection to trust all certificates
-     * This method does nothing if the current request is not a HTTPS request
+     * This getMethod does nothing if the current request is not a HTTPS request
      */
-//    public HttpRequest trustAllCerts() throws HttpRequestException {
-//        final HttpURLConnection connection = getConnection();
-//        if (connection instanceof HttpsURLConnection)
-//            ((HttpsURLConnection) connection)
-//                    .setSSLSocketFactory(getTrustedFactory());
-//        return this;
-//    }
+    public HttpRequest trustAllCerts() throws HttpRequestException {
+        final HttpURLConnection connection = getConnection();
+        if (connection instanceof HttpsURLConnection)
+            ((HttpsURLConnection) connection)
+                    .setSSLSocketFactory(getTrustedFactory());
+        return this;
+    }
 
     /**
      * Configure HTTPS connection to trust all hosts using a custom
      * {@link HostnameVerifier} that always returns <setCode>true</setCode> for each
      * host verified
-     * This method does nothing if the current request is not a HTTPS request
+     * This getMethod does nothing if the current request is not a HTTPS request
      */
-//    public HttpRequest trustAllHosts() {
-//        final HttpURLConnection connection = getConnection();
-//        if (connection instanceof HttpsURLConnection)
-//            ((HttpsURLConnection) connection)
-//                    .setHostnameVerifier(getTrustedVerifier());
-//        return this;
-//    }
+    public HttpRequest trustAllHosts() {
+        final HttpURLConnection connection = getConnection();
+        if (connection instanceof HttpsURLConnection) {
+            ((HttpsURLConnection) connection).setHostnameVerifier(getTrustedVerifier());
+        }
+        return this;
+    }
 
     /**
      * Get the {@link URL} of this request's connection
      */
-    public URL url() {
+    public URL getUrl() {
         return getConnection().getURL();
     }
 
     /**
-     * Get the HTTP method of this request
+     * Get the HTTP getMethod of this request
      */
-    public String method() {
+    public String getMethod() {
         return getConnection().getRequestMethod();
     }
 
@@ -1662,7 +1671,7 @@ public class HttpRequest {
      */
     public HttpRequest useProxy(final String proxyHost, final int proxyPort) {
         if (connection != null) {
-            throw new IllegalStateException("The connection has already been isCreated. This method must be called before reading or writing to the request.");
+            throw new IllegalStateException("The connection has already been isCreated. This getMethod must be called before reading or writing to the request.");
         }
         this.httpProxyHost = proxyHost;
         this.httpProxyPort = proxyPort;
@@ -1670,9 +1679,7 @@ public class HttpRequest {
     }
 
     /**
-     * Set whether or not the underlying connection should follow redirects in the response.
-     *
-     * @param followRedirects - true fo follow redirects, false to not.
+     * 设置为true，则系统自动处理跳转，但是对于有多次跳转的情况，就只能处理第一次。
      */
     public HttpRequest followRedirects(final boolean followRedirects) {
         getConnection().setInstanceFollowRedirects(followRedirects);

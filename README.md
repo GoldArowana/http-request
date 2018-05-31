@@ -1,31 +1,3 @@
-# Http 请求 [![Build Status](https://travis-ci.org/kevinsawicki/http-request.svg)](https://travis-ci.org/kevinsawicki/http-request)
-
-一个基于[HttpURLConnection](http://download.oracle.com/javase/6/docs/api/java/net/HttpURLConnection.html)简单方便的创建HTTP请求并接收响应数据的工具库.
-
-在[MIT License](http://www.opensource.org/licenses/mit-license.php)可以获取到该库
-
-## 使用
-
-http-request这个库可以从[Maven Central](http://search.maven.org/#search%7Cgav%7C1%7Cg%3A%22com.github.kevinsawicki%22%20AND%20a%3A%22http-request%22)获取.
-
-```xml
-<dependency>
-  <groupId>com.github.kevinsawicki</groupId>
-  <artifactId>http-request</artifactId>
-  <version>6.0</version>
-</dependency>
-```
-
-不使用[Maven](http://maven.apache.org/)? 只要复制 [HttpRequest](https://raw.githubusercontent.com/kevinsawicki/http-request/master/lib/src/main/java/com/github/kevinsawicki/http/HttpRequest.java)
-类到你的工种当中, 更新包的报名，然后你就可以使用它了.
-
-你可以从 [这里](http://kevinsawicki.github.com/http-request/apidocs/index.html).获取到javadoc文档
-
-## FAQ
-
-### 谁使用它?
-
-[这里](https://github.com/kevinsawicki/http-request/wiki/Used-By)是已知的项目使用该库
 
 ### 为什么写这个?
 
@@ -34,55 +6,6 @@ http-request这个库可以从[Maven Central](http://search.maven.org/#search%7C
 像[Apache HttpComponents](http://hc.apache.org)这样的组件也是非常好用的，但是有些时候为了更加简单，或者可能因为你部署的环境的问题（比如Android），你只想使用例如`HttpURLConnection`一些过时但是又好用的库。
 
 这个库寻找一种更加方便和一种更加通用的模式来模拟HTTP请求，并支持多种特性的请求，例如多个请求的任务.
-
-### 该库的依赖?
-
-**没有**. 整个库只有单一的一个类和一些静态的内部类，测试工程需要[Jetty](http://eclipse.org/jetty/)的支持，用来实现一个真实的HTTP服务器请求来测试请求.
-
-### 如何管理异常?
-
-`HttpRequest`类不抛出任何检查异常,相反的，所有低等级的异常被包装在继承了`RuntimeException`类的`HttpRequestException`中，你可以通过catching`HttpRequestException`以及调用`getCause`方法来获取潜在的异常信息，它总会返回最原始的`IOException`
-
-### 请求是异步的吗?
-
-**不是**.  每个`HttpRequest`对象都包装了`HttpUrlConnection`这个最根本的对象的一个同步API，因此，所有在`HttpRequest`对象中的方法都是同步的。
-
-因此，不要在你的应用程序的主线程中使用`HttpRequest`对象是非常关键的.
-
-这有一个在Android上使用的小例子
-[AsyncTask](http://developer.android.com/reference/android/os/AsyncTask.html):
-
-```java
-private class DownloadTask extends AsyncTask<String, Long, File> {
-  protected File doInBackground(String... urls) {
-    try {
-      HttpRequest request =  HttpRequest.get(urls[0]);
-      File file = null;
-      if (request.ok()) {
-        file = File.createTempFile("download", ".tmp");
-        request.receive(file);
-        publishProgress(file.length());
-      }
-      return file;
-    } catch (HttpRequestException exception) {
-      return null;
-    }
-  }
-
-  protected void onProgressUpdate(Long... progress) {
-    Log.d("MyApp", "Downloaded bytes: " + progress[0]);
-  }
-
-  protected void onPostExecute(File file) {
-    if (file != null)
-      Log.d("MyApp", "Downloaded file to: " + file.getAbsolutePath());
-    else
-      Log.d("MyApp", "Download failed");
-  }
-}
-
-new DownloadTask().execute("http://google.com");
-```
 
 ## 示例
 ### 执行一个GET请求并返回响应的状态信息
@@ -253,19 +176,3 @@ HttpRequest.setConnectionFactory(new ConnectionFactory() {
   }
 });
 ```
-
-## 贡献
-
-* [Kevin Sawicki](https://github.com/kevinsawicki) :: [contributions](https://github.com/kevinsawicki/http-request/commits?author=kevinsawicki)
-* [Eddie Ringle](https://github.com/eddieringle) :: [contributions](https://github.com/kevinsawicki/http-request/commits?author=eddieringle)
-* [Sean Jensen-Grey](https://github.com/seanjensengrey) :: [contributions](https://github.com/kevinsawicki/http-request/commits?author=seanjensengrey)
-* [Levi Notik](https://github.com/levinotik) :: [contributions](https://github.com/kevinsawicki/http-request/commits?author=levinotik)
-* [Michael Wang](https://github.com/michael-wang) :: [contributions](https://github.com/kevinsawicki/http-request/commits?author=michael-wang)
-* [Julien HENRY](https://github.com/henryju) :: [contributions](https://github.com/kevinsawicki/http-request/commits?author=henryju)
-* [Benoit Lubek](https://github.com/BoD) :: [contributions](https://github.com/kevinsawicki/http-request/commits?author=BoD)
-* [Jake Wharton](https://github.com/JakeWharton) :: [contributions](https://github.com/kevinsawicki/http-request/commits?author=JakeWharton)
-* [Oskar Hagberg](https://github.com/oskarhagberg) :: [contributions](https://github.com/kevinsawicki/http-request/commits?author=oskarhagberg)
-* [David Pate](https://github.com/DavidTPate) :: [contributions](https://github.com/kevinsawicki/http-request/commits?author=DavidTPate)
-* [Anton Rieder](https://github.com/aried3r) :: [contributions](https://github.com/kevinsawicki/http-request/commits?author=aried3r)
-* [Jean-Baptiste Lièvremont](https://github.com/jblievremont) :: [contributions](https://github.com/kevinsawicki/http-request/commits?author=jblievremont)
-* [Roman Petrenko](https://github.com/romanzes) :: [contributions](https://github.com/kevinsawicki/http-request/commits?author=romanzes)

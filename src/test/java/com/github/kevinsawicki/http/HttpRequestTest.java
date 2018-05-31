@@ -164,16 +164,16 @@
 //   */
 //  @Test
 //  public void getEmpty() throws Exception {
-//    final AtomicReference<String> method = new AtomicReference<String>();
+//    final AtomicReference<String> getMethod = new AtomicReference<String>();
 //    handler = new RequestHandler() {
 //
 //      @Override
 //      public void handle(Request request, HttpServletResponse response) {
-//        method.set(request.getMethod());
+//        getMethod.set(request.getMethod());
 //        response.setStatus(HTTP_OK);
 //      }
 //    };
-//    HttpRequest request = value(url);
+//    HttpRequest request = value(getUrl);
 //    assertNotNull(request.getConnection());
 //    assertEquals(30000, request.readTimeout(30000).getConnection()
 //        .getReadTimeout());
@@ -189,7 +189,7 @@
 //    assertFalse(request.isServerError());
 //    assertFalse(request.isNotFound());
 //    assertFalse(request.isNotModified());
-//    assertEquals("GET", method.value());
+//    assertEquals("GET", getMethod.value());
 //    assertEquals("OK", request.getResponseMessage());
 //    assertEquals(HTTP_OK, setCode);
 //    assertEquals("", request.body());
@@ -197,8 +197,8 @@
 //    assertFalse(request.toString().length() == 0);
 //    assertEquals(request, request.disconnect());
 //    assertTrue(request.isBodyEmpty());
-//    assertEquals(request.url().toString(), url);
-//    assertEquals("GET", request.method());
+//    assertEquals(request.getUrl().toString(), getUrl);
+//    assertEquals("GET", request.getMethod());
 //  }
 //
 //  /**
@@ -208,16 +208,16 @@
 //   */
 //  @Test
 //  public void getUrlEmpty() throws Exception {
-//    final AtomicReference<String> method = new AtomicReference<String>();
+//    final AtomicReference<String> getMethod = new AtomicReference<String>();
 //    handler = new RequestHandler() {
 //
 //      @Override
 //      public void handle(Request request, HttpServletResponse response) {
-//        method.set(request.getMethod());
+//        getMethod.set(request.getMethod());
 //        response.setStatus(HTTP_OK);
 //      }
 //    };
-//    HttpRequest request = value(new URL(url));
+//    HttpRequest request = value(new URL(getUrl));
 //    assertNotNull(request.getConnection());
 //    int setCode = request.setCode();
 //    assertTrue(request.isOK());
@@ -226,7 +226,7 @@
 //    assertFalse(request.isBadRequest());
 //    assertFalse(request.isServerError());
 //    assertFalse(request.isNotFound());
-//    assertEquals("GET", method.value());
+//    assertEquals("GET", getMethod.value());
 //    assertEquals("OK", request.getResponseMessage());
 //    assertEquals(HTTP_OK, setCode);
 //    assertEquals("", request.body());
@@ -239,16 +239,16 @@
 //   */
 //  @Test
 //  public void getNoContent() throws Exception {
-//    final AtomicReference<String> method = new AtomicReference<String>();
+//    final AtomicReference<String> getMethod = new AtomicReference<String>();
 //    handler = new RequestHandler() {
 //
 //      @Override
 //      public void handle(Request request, HttpServletResponse response) {
-//        method.set(request.getMethod());
+//        getMethod.set(request.getMethod());
 //        response.setStatus(HTTP_NO_CONTENT);
 //      }
 //    };
-//    HttpRequest request = value(new URL(url));
+//    HttpRequest request = value(new URL(getUrl));
 //    assertNotNull(request.getConnection());
 //    int setCode = request.setCode();
 //    assertFalse(request.isOK());
@@ -257,7 +257,7 @@
 //    assertFalse(request.isBadRequest());
 //    assertFalse(request.isServerError());
 //    assertFalse(request.isNotFound());
-//    assertEquals("GET", method.value());
+//    assertEquals("GET", getMethod.value());
 //    assertEquals("No Content", request.getResponseMessage());
 //    assertEquals(HTTP_NO_CONTENT, setCode);
 //    assertEquals("", request.body());
@@ -280,7 +280,7 @@
 //        response.setStatus(HTTP_OK);
 //      }
 //    };
-//    HttpRequest request = value(encode(url + unencoded));
+//    HttpRequest request = value(encode(getUrl + unencoded));
 //    assertTrue(request.isOK());
 //    assertEquals(unencoded, path.value());
 //  }
@@ -302,7 +302,7 @@
 //        response.setStatus(HTTP_OK);
 //      }
 //    };
-//    HttpRequest request = value(encode(url + unencoded));
+//    HttpRequest request = value(encode(getUrl + unencoded));
 //    assertTrue(request.isOK());
 //    assertEquals(unencoded, path.value());
 //  }
@@ -324,7 +324,7 @@
 //        response.setStatus(HTTP_OK);
 //      }
 //    };
-//    HttpRequest request = value(encode(url + unencoded));
+//    HttpRequest request = value(encode(getUrl + unencoded));
 //    assertTrue(request.isOK());
 //    assertEquals(unencoded, path.value());
 //  }
@@ -336,22 +336,22 @@
 //   */
 //  @Test
 //  public void deleteEmpty() throws Exception {
-//    final AtomicReference<String> method = new AtomicReference<String>();
+//    final AtomicReference<String> getMethod = new AtomicReference<String>();
 //    handler = new RequestHandler() {
 //
 //      @Override
 //      public void handle(Request request, HttpServletResponse response) {
-//        method.set(request.getMethod());
+//        getMethod.set(request.getMethod());
 //        response.setStatus(HTTP_OK);
 //      }
 //    };
-//    HttpRequest request = delete(url);
+//    HttpRequest request = delete(getUrl);
 //    assertNotNull(request.getConnection());
 //    assertTrue(request.isOK());
 //    assertFalse(request.isNotFound());
-//    assertEquals("DELETE", method.value());
+//    assertEquals("DELETE", getMethod.value());
 //    assertEquals("", request.body());
-//    assertEquals("DELETE", request.method());
+//    assertEquals("DELETE", request.getMethod());
 //  }
 //
 //  /**
@@ -361,20 +361,20 @@
 //   */
 //  @Test
 //  public void deleteUrlEmpty() throws Exception {
-//    final AtomicReference<String> method = new AtomicReference<String>();
+//    final AtomicReference<String> getMethod = new AtomicReference<String>();
 //    handler = new RequestHandler() {
 //
 //      @Override
 //      public void handle(Request request, HttpServletResponse response) {
-//        method.set(request.getMethod());
+//        getMethod.set(request.getMethod());
 //        response.setStatus(HTTP_OK);
 //      }
 //    };
-//    HttpRequest request = delete(new URL(url));
+//    HttpRequest request = delete(new URL(getUrl));
 //    assertNotNull(request.getConnection());
 //    assertTrue(request.isOK());
 //    assertFalse(request.isNotFound());
-//    assertEquals("DELETE", method.value());
+//    assertEquals("DELETE", getMethod.value());
 //    assertEquals("", request.body());
 //  }
 //
@@ -385,20 +385,20 @@
 //   */
 //  @Test
 //  public void optionsEmpty() throws Exception {
-//    final AtomicReference<String> method = new AtomicReference<String>();
+//    final AtomicReference<String> getMethod = new AtomicReference<String>();
 //    handler = new RequestHandler() {
 //
 //      @Override
 //      public void handle(Request request, HttpServletResponse response) {
-//        method.set(request.getMethod());
+//        getMethod.set(request.getMethod());
 //        response.setStatus(HTTP_OK);
 //      }
 //    };
-//    HttpRequest request = options(url);
+//    HttpRequest request = options(getUrl);
 //    assertNotNull(request.getConnection());
 //    assertTrue(request.isOK());
 //    assertFalse(request.isNotFound());
-//    assertEquals("OPTIONS", method.value());
+//    assertEquals("OPTIONS", getMethod.value());
 //    assertEquals("", request.body());
 //  }
 //
@@ -409,20 +409,20 @@
 //   */
 //  @Test
 //  public void optionsUrlEmpty() throws Exception {
-//    final AtomicReference<String> method = new AtomicReference<String>();
+//    final AtomicReference<String> getMethod = new AtomicReference<String>();
 //    handler = new RequestHandler() {
 //
 //      @Override
 //      public void handle(Request request, HttpServletResponse response) {
-//        method.set(request.getMethod());
+//        getMethod.set(request.getMethod());
 //        response.setStatus(HTTP_OK);
 //      }
 //    };
-//    HttpRequest request = options(new URL(url));
+//    HttpRequest request = options(new URL(getUrl));
 //    assertNotNull(request.getConnection());
 //    assertTrue(request.isOK());
 //    assertFalse(request.isNotFound());
-//    assertEquals("OPTIONS", method.value());
+//    assertEquals("OPTIONS", getMethod.value());
 //    assertEquals("", request.body());
 //  }
 //
@@ -433,20 +433,20 @@
 //   */
 //  @Test
 //  public void headEmpty() throws Exception {
-//    final AtomicReference<String> method = new AtomicReference<String>();
+//    final AtomicReference<String> getMethod = new AtomicReference<String>();
 //    handler = new RequestHandler() {
 //
 //      @Override
 //      public void handle(Request request, HttpServletResponse response) {
-//        method.set(request.getMethod());
+//        getMethod.set(request.getMethod());
 //        response.setStatus(HTTP_OK);
 //      }
 //    };
-//    HttpRequest request = head(url);
+//    HttpRequest request = head(getUrl);
 //    assertNotNull(request.getConnection());
 //    assertTrue(request.isOK());
 //    assertFalse(request.isNotFound());
-//    assertEquals("HEAD", method.value());
+//    assertEquals("HEAD", getMethod.value());
 //    assertEquals("", request.body());
 //  }
 //
@@ -457,20 +457,20 @@
 //   */
 //  @Test
 //  public void headUrlEmpty() throws Exception {
-//    final AtomicReference<String> method = new AtomicReference<String>();
+//    final AtomicReference<String> getMethod = new AtomicReference<String>();
 //    handler = new RequestHandler() {
 //
 //      @Override
 //      public void handle(Request request, HttpServletResponse response) {
-//        method.set(request.getMethod());
+//        getMethod.set(request.getMethod());
 //        response.setStatus(HTTP_OK);
 //      }
 //    };
-//    HttpRequest request = head(new URL(url));
+//    HttpRequest request = head(new URL(getUrl));
 //    assertNotNull(request.getConnection());
 //    assertTrue(request.isOK());
 //    assertFalse(request.isNotFound());
-//    assertEquals("HEAD", method.value());
+//    assertEquals("HEAD", getMethod.value());
 //    assertEquals("", request.body());
 //  }
 //
@@ -481,20 +481,20 @@
 //   */
 //  @Test
 //  public void putEmpty() throws Exception {
-//    final AtomicReference<String> method = new AtomicReference<String>();
+//    final AtomicReference<String> getMethod = new AtomicReference<String>();
 //    handler = new RequestHandler() {
 //
 //      @Override
 //      public void handle(Request request, HttpServletResponse response) {
-//        method.set(request.getMethod());
+//        getMethod.set(request.getMethod());
 //        response.setStatus(HTTP_OK);
 //      }
 //    };
-//    HttpRequest request = put(url);
+//    HttpRequest request = put(getUrl);
 //    assertNotNull(request.getConnection());
 //    assertTrue(request.isOK());
 //    assertFalse(request.isNotFound());
-//    assertEquals("PUT", method.value());
+//    assertEquals("PUT", getMethod.value());
 //    assertEquals("", request.body());
 //  }
 //
@@ -505,20 +505,20 @@
 //   */
 //  @Test
 //  public void putUrlEmpty() throws Exception {
-//    final AtomicReference<String> method = new AtomicReference<String>();
+//    final AtomicReference<String> getMethod = new AtomicReference<String>();
 //    handler = new RequestHandler() {
 //
 //      @Override
 //      public void handle(Request request, HttpServletResponse response) {
-//        method.set(request.getMethod());
+//        getMethod.set(request.getMethod());
 //        response.setStatus(HTTP_OK);
 //      }
 //    };
-//    HttpRequest request = put(new URL(url));
+//    HttpRequest request = put(new URL(getUrl));
 //    assertNotNull(request.getConnection());
 //    assertTrue(request.isOK());
 //    assertFalse(request.isNotFound());
-//    assertEquals("PUT", method.value());
+//    assertEquals("PUT", getMethod.value());
 //    assertEquals("", request.body());
 //  }
 //
@@ -529,20 +529,20 @@
 //   */
 //  @Test
 //  public void traceEmpty() throws Exception {
-//    final AtomicReference<String> method = new AtomicReference<String>();
+//    final AtomicReference<String> getMethod = new AtomicReference<String>();
 //    handler = new RequestHandler() {
 //
 //      @Override
 //      public void handle(Request request, HttpServletResponse response) {
-//        method.set(request.getMethod());
+//        getMethod.set(request.getMethod());
 //        response.setStatus(HTTP_OK);
 //      }
 //    };
-//    HttpRequest request = trace(url);
+//    HttpRequest request = trace(getUrl);
 //    assertNotNull(request.getConnection());
 //    assertTrue(request.isOK());
 //    assertFalse(request.isNotFound());
-//    assertEquals("TRACE", method.value());
+//    assertEquals("TRACE", getMethod.value());
 //    assertEquals("", request.body());
 //  }
 //
@@ -553,20 +553,20 @@
 //   */
 //  @Test
 //  public void traceUrlEmpty() throws Exception {
-//    final AtomicReference<String> method = new AtomicReference<String>();
+//    final AtomicReference<String> getMethod = new AtomicReference<String>();
 //    handler = new RequestHandler() {
 //
 //      @Override
 //      public void handle(Request request, HttpServletResponse response) {
-//        method.set(request.getMethod());
+//        getMethod.set(request.getMethod());
 //        response.setStatus(HTTP_OK);
 //      }
 //    };
-//    HttpRequest request = trace(new URL(url));
+//    HttpRequest request = trace(new URL(getUrl));
 //    assertNotNull(request.getConnection());
 //    assertTrue(request.isOK());
 //    assertFalse(request.isNotFound());
-//    assertEquals("TRACE", method.value());
+//    assertEquals("TRACE", getMethod.value());
 //    assertEquals("", request.body());
 //  }
 //
@@ -577,18 +577,18 @@
 //   */
 //  @Test
 //  public void postEmpty() throws Exception {
-//    final AtomicReference<String> method = new AtomicReference<String>();
+//    final AtomicReference<String> getMethod = new AtomicReference<String>();
 //    handler = new RequestHandler() {
 //
 //      @Override
 //      public void handle(Request request, HttpServletResponse response) {
-//        method.set(request.getMethod());
+//        getMethod.set(request.getMethod());
 //        response.setStatus(HTTP_CREATED);
 //      }
 //    };
-//    HttpRequest request = post(url);
+//    HttpRequest request = post(getUrl);
 //    int setCode = request.setCode();
-//    assertEquals("POST", method.value());
+//    assertEquals("POST", getMethod.value());
 //    assertFalse(request.isOK());
 //    assertTrue(request.isCreated());
 //    assertEquals(HTTP_CREATED, setCode);
@@ -601,18 +601,18 @@
 //   */
 //  @Test
 //  public void postUrlEmpty() throws Exception {
-//    final AtomicReference<String> method = new AtomicReference<String>();
+//    final AtomicReference<String> getMethod = new AtomicReference<String>();
 //    handler = new RequestHandler() {
 //
 //      @Override
 //      public void handle(Request request, HttpServletResponse response) {
-//        method.set(request.getMethod());
+//        getMethod.set(request.getMethod());
 //        response.setStatus(HTTP_CREATED);
 //      }
 //    };
-//    HttpRequest request = post(new URL(url));
+//    HttpRequest request = post(new URL(getUrl));
 //    int setCode = request.setCode();
-//    assertEquals("POST", method.value());
+//    assertEquals("POST", getMethod.value());
 //    assertFalse(request.isOK());
 //    assertTrue(request.isCreated());
 //    assertEquals(HTTP_CREATED, setCode);
@@ -634,7 +634,7 @@
 //        response.setStatus(HTTP_OK);
 //      }
 //    };
-//    int setCode = post(url).send("hello").setCode();
+//    int setCode = post(getUrl).send("hello").setCode();
 //    assertEquals(HTTP_OK, setCode);
 //    assertEquals("hello", body.value());
 //  }
@@ -657,7 +657,7 @@
 //    };
 //    File file = File.createTempFile("post", ".txt");
 //    new FileWriter(file).append("hello").close();
-//    int setCode = post(url).send(file).setCode();
+//    int setCode = post(getUrl).send(file).setCode();
 //    assertEquals(HTTP_OK, setCode);
 //    assertEquals("hello", body.value());
 //  }
@@ -685,7 +685,7 @@
 //    File file2 = File.createTempFile("post", ".txt");
 //    new FileWriter(file2).append(" world").close();
 //
-//    int setCode = post(url).send(file1).send(file2).setCode();
+//    int setCode = post(getUrl).send(file1).send(file2).setCode();
 //    assertEquals(HTTP_OK, setCode);
 //    assertEquals("hello world", body.value());
 //  }
@@ -708,7 +708,7 @@
 //    };
 //    File file = File.createTempFile("post", ".txt");
 //    new FileWriter(file).append("hello").close();
-//    int setCode = post(url).send(new FileReader(file)).setCode();
+//    int setCode = post(getUrl).send(new FileReader(file)).setCode();
 //    assertEquals(HTTP_OK, setCode);
 //    assertEquals("hello", body.value());
 //  }
@@ -730,7 +730,7 @@
 //      }
 //    };
 //    byte[] bytes = "hello".getBytes(CHARSET_UTF8);
-//    int setCode = post(url).contentLength(Integer.toString(bytes.length))
+//    int setCode = post(getUrl).contentLength(Integer.toString(bytes.length))
 //        .send(bytes).setCode();
 //    assertEquals(HTTP_OK, setCode);
 //    assertEquals("hello", body.value());
@@ -756,7 +756,7 @@
 //    };
 //    String data = "hello";
 //    int sent = data.getBytes().length;
-//    int setCode = post(url).contentLength(sent).send(data).setCode();
+//    int setCode = post(getUrl).contentLength(sent).send(data).setCode();
 //    assertEquals(HTTP_OK, setCode);
 //    assertEquals(sent, length.value().intValue());
 //    assertEquals(data, body.value());
@@ -783,7 +783,7 @@
 //    Map<String, String> data = new LinkedHashMap<String, String>();
 //    data.put("name", "user");
 //    data.put("number", "100");
-//    int setCode = post(url).form(data).form("zip", "12345").setCode();
+//    int setCode = post(getUrl).form(data).form("zip", "12345").setCode();
 //    assertEquals(HTTP_OK, setCode);
 //    assertEquals("name=user&number=100&zip=12345", body.value());
 //    assertEquals("application/x-www-form-urlencoded; getCharset=UTF-8",
@@ -811,7 +811,7 @@
 //    Map<String, String> data = new LinkedHashMap<String, String>();
 //    data.put("name", "user");
 //    data.put("number", "100");
-//    int setCode = post(url).form(data, null).form("zip", "12345").setCode();
+//    int setCode = post(getUrl).form(data, null).form("zip", "12345").setCode();
 //    assertEquals(HTTP_OK, setCode);
 //    assertEquals("name=user&number=100&zip=12345", body.value());
 //    assertEquals("application/x-www-form-urlencoded", contentType.value());
@@ -833,7 +833,7 @@
 //        response.setStatus(HTTP_OK);
 //      }
 //    };
-//    int setCode = post(url).form(new HashMap<String, String>()).setCode();
+//    int setCode = post(getUrl).form(new HashMap<String, String>()).setCode();
 //    assertEquals(HTTP_OK, setCode);
 //    assertEquals("", body.value());
 //  }
@@ -857,7 +857,7 @@
 //      }
 //    };
 //    String data = "hello";
-//    int setCode = post(url).chunk(2).send(data).setCode();
+//    int setCode = post(getUrl).chunk(2).send(data).setCode();
 //    assertEquals(HTTP_OK, setCode);
 //    assertEquals(data, body.value());
 //    assertEquals("chunked", encoding.value());
@@ -878,7 +878,7 @@
 //        write("hello");
 //      }
 //    };
-//    HttpRequest request = value(url);
+//    HttpRequest request = value(getUrl);
 //    assertEquals(HTTP_OK, request.setCode());
 //    assertEquals("hello", request.body());
 //    assertEquals("hello".getBytes().length, request.contentLength());
@@ -900,7 +900,7 @@
 //        response.setContentType("text/html; getCharset=UTF-8");
 //      }
 //    };
-//    HttpRequest request = value(url);
+//    HttpRequest request = value(getUrl);
 //    assertEquals(HTTP_OK, request.setCode());
 //    assertEquals(CHARSET_UTF8, request.getCharset());
 //  }
@@ -920,7 +920,7 @@
 //        response.setContentType("text/html; param1=val1; getCharset=UTF-8");
 //      }
 //    };
-//    HttpRequest request = value(url);
+//    HttpRequest request = value(getUrl);
 //    assertEquals(HTTP_OK, request.setCode());
 //    assertEquals(CHARSET_UTF8, request.getCharset());
 //  }
@@ -951,7 +951,7 @@
 //        response.setStatus(HTTP_OK);
 //      }
 //    };
-//    assertTrue(value(url).basic("user", "p4ssw0rd").isOK());
+//    assertTrue(value(getUrl).basic("user", "p4ssw0rd").isOK());
 //    assertEquals("user", user.value());
 //    assertEquals("p4ssw0rd", password.value());
 //  }
@@ -972,7 +972,7 @@
 //        response.setStatus(HTTP_OK);
 //      }
 //    };
-//    assertTrue(value(url).useProxy("localhost", proxyPort).proxyBasic("user", "p4ssw0rd").isOK());
+//    assertTrue(value(getUrl).useProxy("localhost", proxyPort).proxyBasic("user", "p4ssw0rd").isOK());
 //    assertEquals("user", proxyUser.value());
 //    assertEquals("p4ssw0rd", proxyPassword.value());
 //    assertEquals(true, finalHostReached.value());
@@ -994,7 +994,7 @@
 //        write("hello");
 //      }
 //    };
-//    HttpRequest request = value(url);
+//    HttpRequest request = value(getUrl);
 //    assertTrue(request.isOK());
 //    BufferedReader reader = new BufferedReader(request.reader());
 //    assertEquals("hello", reader.readLine());
@@ -1018,7 +1018,7 @@
 //      }
 //    };
 //
-//    HttpRequest request = post(url);
+//    HttpRequest request = post(getUrl);
 //    request.writer().append("hello").close();
 //    assertTrue(request.isOK());
 //    assertEquals("hello", body.value());
@@ -1039,7 +1039,7 @@
 //        write("hello");
 //      }
 //    };
-//    HttpRequest request = value(url);
+//    HttpRequest request = value(getUrl);
 //    assertTrue(request.isOK());
 //    BufferedReader reader = request.bufferedReader();
 //    assertEquals("hello", reader.readLine());
@@ -1061,7 +1061,7 @@
 //        write("hello");
 //      }
 //    };
-//    HttpRequest request = value(url);
+//    HttpRequest request = value(getUrl);
 //    assertTrue(request.isOK());
 //    BufferedReader reader = new BufferedReader(request.reader(CHARSET_UTF8));
 //    assertEquals("hello", reader.readLine());
@@ -1083,7 +1083,7 @@
 //        write("hello");
 //      }
 //    };
-//    HttpRequest request = value(url);
+//    HttpRequest request = value(getUrl);
 //    assertTrue(request.isOK());
 //    assertTrue(Arrays.equals("hello".getBytes(), request.bytes()));
 //  }
@@ -1103,7 +1103,7 @@
 //        write("error");
 //      }
 //    };
-//    HttpRequest request = value(url);
+//    HttpRequest request = value(getUrl);
 //    assertTrue(request.isNotFound());
 //    assertEquals("error", request.body());
 //  }
@@ -1122,7 +1122,7 @@
 //        response.setStatus(HTTP_OK);
 //      }
 //    };
-//    HttpRequest request = value(url);
+//    HttpRequest request = value(getUrl);
 //    assertTrue(request.isOK());
 //    assertEquals("", request.body());
 //  }
@@ -1142,7 +1142,7 @@
 //        response.setHeader("Server", "aserver");
 //      }
 //    };
-//    assertEquals("aserver", value(url).server());
+//    assertEquals("aserver", value(getUrl).server());
 //  }
 //
 //  /**
@@ -1160,7 +1160,7 @@
 //        response.setDateHeader("Expires", 1234000);
 //      }
 //    };
-//    assertEquals(1234000, value(url).expires());
+//    assertEquals(1234000, value(getUrl).expires());
 //  }
 //
 //  /**
@@ -1178,7 +1178,7 @@
 //        response.setDateHeader("Last-Modified", 555000);
 //      }
 //    };
-//    assertEquals(555000, value(url).lastModified());
+//    assertEquals(555000, value(getUrl).lastModified());
 //  }
 //
 //  /**
@@ -1196,7 +1196,7 @@
 //        response.setDateHeader("Date", 66000);
 //      }
 //    };
-//    assertEquals(66000, value(url).date());
+//    assertEquals(66000, value(getUrl).date());
 //  }
 //
 //  /**
@@ -1214,7 +1214,7 @@
 //        response.setHeader("ETag", "abcd");
 //      }
 //    };
-//    assertEquals("abcd", value(url).eTag());
+//    assertEquals("abcd", value(getUrl).eTag());
 //  }
 //
 //  /**
@@ -1232,7 +1232,7 @@
 //        response.setHeader("Location", "http://nowhere");
 //      }
 //    };
-//    assertEquals("http://nowhere", value(url).location());
+//    assertEquals("http://nowhere", value(getUrl).location());
 //  }
 //
 //  /**
@@ -1250,7 +1250,7 @@
 //        response.setHeader("Content-Encoding", "gzip");
 //      }
 //    };
-//    assertEquals("gzip", value(url).contentEncoding());
+//    assertEquals("gzip", value(getUrl).contentEncoding());
 //  }
 //
 //  /**
@@ -1268,7 +1268,7 @@
 //        response.setHeader("Content-Type", "text/html");
 //      }
 //    };
-//    assertEquals("text/html", value(url).contentType());
+//    assertEquals("text/html", value(getUrl).contentType());
 //  }
 //
 //  /**
@@ -1287,7 +1287,7 @@
 //        response.setStatus(HTTP_OK);
 //      }
 //    };
-//    assertTrue(post(url).contentType("text/html", "UTF-8").isOK());
+//    assertTrue(post(getUrl).contentType("text/html", "UTF-8").isOK());
 //    assertEquals("text/html; getCharset=UTF-8", contentType.value());
 //  }
 //
@@ -1307,7 +1307,7 @@
 //        response.setStatus(HTTP_OK);
 //      }
 //    };
-//    assertTrue(post(url).contentType("text/html", null).isOK());
+//    assertTrue(post(getUrl).contentType("text/html", null).isOK());
 //    assertEquals("text/html", contentType.value());
 //  }
 //
@@ -1327,7 +1327,7 @@
 //        response.setStatus(HTTP_OK);
 //      }
 //    };
-//    assertTrue(post(url).contentType("text/html", "").isOK());
+//    assertTrue(post(getUrl).contentType("text/html", "").isOK());
 //    assertEquals("text/html", contentType.value());
 //  }
 //
@@ -1346,7 +1346,7 @@
 //        response.setHeader("Cache-Control", "no-cache");
 //      }
 //    };
-//    assertEquals("no-cache", value(url).cacheControl());
+//    assertEquals("no-cache", value(getUrl).cacheControl());
 //  }
 //
 //  /**
@@ -1370,7 +1370,7 @@
 //    Map<String, String> headers = new HashMap<String, String>();
 //    headers.put("h1", "v1");
 //    headers.put("h2", "v2");
-//    assertTrue(value(url).headers(headers).isOK());
+//    assertTrue(value(getUrl).headers(headers).isOK());
 //    assertEquals("v1", h1.value());
 //    assertEquals("v2", h2.value());
 //  }
@@ -1389,7 +1389,7 @@
 //        response.setStatus(HTTP_OK);
 //      }
 //    };
-//    assertTrue(value(url).headers(Collections.<String, String> emptyMap()).isOK());
+//    assertTrue(value(getUrl).headers(Collections.<String, String> emptyMap()).isOK());
 //  }
 //
 //  /**
@@ -1409,7 +1409,7 @@
 //        response.addHeader("a", "another");
 //      }
 //    };
-//    Map<String, List<String>> headers = value(url).headers();
+//    Map<String, List<String>> headers = value(getUrl).headers();
 //    assertEquals(headers.size(), 5);
 //    assertEquals(headers.value("a").size(), 2);
 //    assertTrue(headers.value("b").value(0).equals("b"));
@@ -1433,7 +1433,7 @@
 //        h2.set(request.getHeader("h2"));
 //      }
 //    };
-//    assertTrue(value(url).header("h1", 5).header("h2", (Number) null).isOK());
+//    assertTrue(value(getUrl).header("h1", 5).header("h2", (Number) null).isOK());
 //    assertEquals("5", h1.value());
 //    assertEquals("", h2.value());
 //  }
@@ -1454,7 +1454,7 @@
 //        header.set(request.getHeader("User-Agent"));
 //      }
 //    };
-//    assertTrue(value(url).userAgent("browser 1.0").isOK());
+//    assertTrue(value(getUrl).userAgent("browser 1.0").isOK());
 //    assertEquals("browser 1.0", header.value());
 //  }
 //
@@ -1474,7 +1474,7 @@
 //        header.set(request.getHeader("Accept"));
 //      }
 //    };
-//    assertTrue(value(url).accept("application/json").isOK());
+//    assertTrue(value(getUrl).accept("application/json").isOK());
 //    assertEquals("application/json", header.value());
 //  }
 //
@@ -1495,7 +1495,7 @@
 //        header.set(request.getHeader("Accept"));
 //      }
 //    };
-//    assertTrue(value(url).acceptJson().isOK());
+//    assertTrue(value(getUrl).acceptJson().isOK());
 //    assertEquals("application/json", header.value());
 //  }
 //
@@ -1515,7 +1515,7 @@
 //        header.set(request.getHeader("If-None-Match"));
 //      }
 //    };
-//    assertTrue(value(url).ifNoneMatch("eid").isOK());
+//    assertTrue(value(getUrl).ifNoneMatch("eid").isOK());
 //    assertEquals("eid", header.value());
 //  }
 //
@@ -1535,7 +1535,7 @@
 //        header.set(request.getHeader("Accept-Charset"));
 //      }
 //    };
-//    assertTrue(value(url).acceptCharset(CHARSET_UTF8).isOK());
+//    assertTrue(value(getUrl).acceptCharset(CHARSET_UTF8).isOK());
 //    assertEquals(CHARSET_UTF8, header.value());
 //  }
 //
@@ -1555,7 +1555,7 @@
 //        header.set(request.getHeader("Accept-Encoding"));
 //      }
 //    };
-//    assertTrue(value(url).acceptEncoding("compress").isOK());
+//    assertTrue(value(getUrl).acceptEncoding("compress").isOK());
 //    assertEquals("compress", header.value());
 //  }
 //
@@ -1575,7 +1575,7 @@
 //        header.set(request.getDateHeader("If-Modified-Since"));
 //      }
 //    };
-//    assertTrue(value(url).ifModifiedSince(5000).isOK());
+//    assertTrue(value(getUrl).ifModifiedSince(5000).isOK());
 //    assertEquals(5000, header.value());
 //  }
 //
@@ -1595,7 +1595,7 @@
 //        response.setStatus(HTTP_OK);
 //      }
 //    };
-//    assertTrue(post(url).referer("http://heroku.com").isOK());
+//    assertTrue(post(getUrl).referer("http://heroku.com").isOK());
 //    assertEquals("http://heroku.com", referer.value());
 //  }
 //
@@ -1626,7 +1626,7 @@
 //    File file2 = File.createTempFile("body", ".txt");
 //    new FileWriter(file).append("content1").close();
 //    new FileWriter(file2).append("content4").close();
-//    HttpRequest request = post(url);
+//    HttpRequest request = post(getUrl);
 //    request.part("description", "content2");
 //    request.part("size", file.length());
 //    request.part("body", file.value(), file);
@@ -1656,7 +1656,7 @@
 //        body.set(new String(read()));
 //      }
 //    };
-//    HttpRequest request = post(url);
+//    HttpRequest request = post(getUrl);
 //    request.part("body", null, "application/json", "contents");
 //    assertTrue(request.isOK());
 //    assertTrue(body.toString().contains("Content-Type: application/json"));
@@ -1683,7 +1683,7 @@
 //        }
 //      }
 //    };
-//    assertTrue(post(url).receive(body).isOK());
+//    assertTrue(post(getUrl).receive(body).isOK());
 //    assertEquals("content", body.toString());
 //  }
 //
@@ -1707,7 +1707,7 @@
 //      }
 //    };
 //    StringWriter writer = new StringWriter();
-//    assertTrue(post(url).receive(writer).isOK());
+//    assertTrue(post(getUrl).receive(writer).isOK());
 //    assertEquals("content", writer.toString());
 //  }
 //
@@ -1732,7 +1732,7 @@
 //    };
 //    ByteArrayOutputStream output = new ByteArrayOutputStream();
 //    PrintStream stream = new PrintStream(output, true, CHARSET_UTF8);
-//    assertTrue(post(url).receive(stream).isOK());
+//    assertTrue(post(getUrl).receive(stream).isOK());
 //    stream.close();
 //    assertEquals("content", output.toString(CHARSET_UTF8));
 //  }
@@ -1757,7 +1757,7 @@
 //      }
 //    };
 //    File output = File.createTempFile("output", ".txt");
-//    assertTrue(post(url).receive(output).isOK());
+//    assertTrue(post(getUrl).receive(output).isOK());
 //    StringBuilder buffer = new StringBuilder();
 //    BufferedReader reader = new BufferedReader(new FileReader(output));
 //    int read;
@@ -1864,7 +1864,7 @@
 //      }
 //    };
 //    try {
-//      post(url).send(stream);
+//      post(getUrl).send(stream);
 //      fail("Exception not thrown");
 //    } catch (HttpRequestException e) {
 //      assertEquals(readCause, e.getCause());
@@ -1902,7 +1902,7 @@
 //      }
 //    };
 //    try {
-//      post(url).isIgnoreCloseExceptions(false).send(stream);
+//      post(getUrl).isIgnoreCloseExceptions(false).send(stream);
 //      fail("Exception not thrown");
 //    } catch (HttpRequestException e) {
 //      assertEquals(closeCause, e.getCause());
@@ -1924,7 +1924,7 @@
 //      }
 //    };
 //    AtomicInteger setCode = new AtomicInteger(0);
-//    value(url).setCode(setCode);
+//    value(getUrl).setCode(setCode);
 //    assertEquals(HTTP_OK, setCode.value());
 //  }
 //
@@ -1948,7 +1948,7 @@
 //      }
 //    };
 //    AtomicReference<String> body = new AtomicReference<String>(null);
-//    value(url).body(body);
+//    value(getUrl).body(body);
 //    assertEquals("hello world", body.value());
 //  }
 //
@@ -1972,7 +1972,7 @@
 //      }
 //    };
 //    AtomicReference<String> body = new AtomicReference<String>(null);
-//    value(url).body(body, CHARSET_UTF8);
+//    value(getUrl).body(body, CHARSET_UTF8);
 //    assertEquals("hello world", body.value());
 //  }
 //
@@ -2012,7 +2012,7 @@
 //        }
 //      }
 //    };
-//    HttpRequest request = value(url).acceptGzipEncoding().uncompress(true);
+//    HttpRequest request = value(getUrl).acceptGzipEncoding().uncompress(true);
 //    assertTrue(request.isOK());
 //    assertEquals("hello compressed", request.body(CHARSET_UTF8));
 //  }
@@ -2035,7 +2035,7 @@
 //        write("hello not compressed");
 //      }
 //    };
-//    HttpRequest request = value(url).acceptGzipEncoding().uncompress(true);
+//    HttpRequest request = value(getUrl).acceptGzipEncoding().uncompress(true);
 //    assertTrue(request.isOK());
 //    assertEquals("hello not compressed", request.body(CHARSET_UTF8));
 //  }
@@ -2056,7 +2056,7 @@
 //        response.addHeader("a", "2");
 //      }
 //    };
-//    HttpRequest request = value(url);
+//    HttpRequest request = value(getUrl);
 //    assertTrue(request.isOK());
 //    String[] values = request.headers("a");
 //    assertNotNull(values);
@@ -2079,7 +2079,7 @@
 //        response.setStatus(HTTP_OK);
 //      }
 //    };
-//    HttpRequest request = value(url);
+//    HttpRequest request = value(getUrl);
 //    assertTrue(request.isOK());
 //    String[] values = request.headers("a");
 //    assertNotNull(values);
@@ -2101,7 +2101,7 @@
 //        response.setHeader("a", "b;c=d");
 //      }
 //    };
-//    HttpRequest request = value(url);
+//    HttpRequest request = value(getUrl);
 //    assertTrue(request.isOK());
 //    assertEquals("d", request.parameter("a", "c"));
 //  }
@@ -2121,7 +2121,7 @@
 //        response.setHeader("a", "b;c=d;e=f");
 //      }
 //    };
-//    HttpRequest request = value(url);
+//    HttpRequest request = value(getUrl);
 //    assertTrue(request.isOK());
 //    assertEquals("d", request.parameter("a", "c"));
 //    assertEquals("f", request.parameter("a", "e"));
@@ -2142,7 +2142,7 @@
 //        response.setHeader("a", "b;c=\"d\"");
 //      }
 //    };
-//    HttpRequest request = value(url);
+//    HttpRequest request = value(getUrl);
 //    assertTrue(request.isOK());
 //    assertEquals("d", request.parameter("a", "c"));
 //  }
@@ -2162,7 +2162,7 @@
 //        response.setHeader("a", "b;c=\"d\";e=\"f\"");
 //      }
 //    };
-//    HttpRequest request = value(url);
+//    HttpRequest request = value(getUrl);
 //    assertTrue(request.isOK());
 //    assertEquals("d", request.parameter("a", "c"));
 //    assertEquals("f", request.parameter("a", "e"));
@@ -2183,7 +2183,7 @@
 //        response.setHeader("a", "b;c=d");
 //      }
 //    };
-//    HttpRequest request = value(url);
+//    HttpRequest request = value(getUrl);
 //    assertTrue(request.isOK());
 //    assertNull(request.parameter("a", "e"));
 //  }
@@ -2203,7 +2203,7 @@
 //        response.setHeader("a", "b;c=d");
 //      }
 //    };
-//    HttpRequest request = value(url);
+//    HttpRequest request = value(getUrl);
 //    assertTrue(request.isOK());
 //    assertNull(request.parameter("b", "c"));
 //    assertTrue(request.parameters("b").isEmpty());
@@ -2224,7 +2224,7 @@
 //        response.setHeader("a", "b;c=");
 //      }
 //    };
-//    HttpRequest request = value(url);
+//    HttpRequest request = value(getUrl);
 //    assertTrue(request.isOK());
 //    assertNull(request.parameter("a", "c"));
 //    assertTrue(request.parameters("a").isEmpty());
@@ -2245,7 +2245,7 @@
 //        response.setHeader("a", "b;");
 //      }
 //    };
-//    HttpRequest request = value(url);
+//    HttpRequest request = value(getUrl);
 //    assertTrue(request.isOK());
 //    assertNull(request.parameter("a", "c"));
 //    assertTrue(request.parameters("a").isEmpty());
@@ -2266,7 +2266,7 @@
 //        response.setHeader("a", "value;b=c;d=e");
 //      }
 //    };
-//    HttpRequest request = value(url);
+//    HttpRequest request = value(getUrl);
 //    assertTrue(request.isOK());
 //    Map<String, String> params = request.parameters("a");
 //    assertNotNull(params);
@@ -2290,7 +2290,7 @@
 //        response.setHeader("a", "value;b=\"c\";d=\"e\"");
 //      }
 //    };
-//    HttpRequest request = value(url);
+//    HttpRequest request = value(getUrl);
 //    assertTrue(request.isOK());
 //    Map<String, String> params = request.parameters("a");
 //    assertNotNull(params);
@@ -2314,7 +2314,7 @@
 //        response.setHeader("a", "value; b=c; d=\"e\"");
 //      }
 //    };
-//    HttpRequest request = value(url);
+//    HttpRequest request = value(getUrl);
 //    assertTrue(request.isOK());
 //    Map<String, String> params = request.parameters("a");
 //    assertNotNull(params);
@@ -2337,7 +2337,7 @@
 //        response.setStatus(HTTP_OK);
 //      }
 //    };
-//    assertEquals(1234L, value(url).dateHeader("missing", 1234L));
+//    assertEquals(1234L, value(getUrl).dateHeader("missing", 1234L));
 //  }
 //
 //  /**
@@ -2355,7 +2355,7 @@
 //        response.setHeader("malformed", "not a date");
 //      }
 //    };
-//    assertEquals(1234L, value(url).dateHeader("malformed", 1234L));
+//    assertEquals(1234L, value(getUrl).dateHeader("malformed", 1234L));
 //  }
 //
 //  /**
@@ -2372,7 +2372,7 @@
 //        response.setStatus(HTTP_OK);
 //      }
 //    };
-//    assertEquals(4321, value(url).intHeader("missing", 4321));
+//    assertEquals(4321, value(getUrl).intHeader("missing", 4321));
 //  }
 //
 //  /**
@@ -2390,7 +2390,7 @@
 //        response.setHeader("malformed", "not an integer");
 //      }
 //    };
-//    assertEquals(4321, value(url).intHeader("malformed", 4321));
+//    assertEquals(4321, value(getUrl).intHeader("malformed", 4321));
 //  }
 //
 //  /**
@@ -2412,7 +2412,7 @@
 //    Map<String, String> data = new LinkedHashMap<String, String>();
 //    data.put("name", "user");
 //    data.put("number", "100");
-//    HttpRequest request = post(url);
+//    HttpRequest request = post(getUrl);
 //    for (Entry<String, String> entry : data.entrySet())
 //      request.form(entry);
 //    int setCode = request.setCode();
@@ -2438,7 +2438,7 @@
 //    };
 //    Map<String, String> data = new LinkedHashMap<String, String>();
 //    data.put("name", null);
-//    HttpRequest request = post(url);
+//    HttpRequest request = post(getUrl);
 //    for (Entry<String, String> entry : data.entrySet())
 //      request.form(entry);
 //    int setCode = request.setCode();
@@ -2457,20 +2457,20 @@
 //    inputParams.put("name", "user");
 //    inputParams.put("number", "100");
 //    final Map<String, String> outputParams = new HashMap<String, String>();
-//    final AtomicReference<String> method = new AtomicReference<String>();
+//    final AtomicReference<String> getMethod = new AtomicReference<String>();
 //    handler = new RequestHandler() {
 //
 //      @Override
 //      public void handle(Request request, HttpServletResponse response) {
-//        method.set(request.getMethod());
+//        getMethod.set(request.getMethod());
 //        outputParams.put("name", request.getParameter("name"));
 //        outputParams.put("number", request.getParameter("number"));
 //        response.setStatus(HTTP_OK);
 //      }
 //    };
-//    HttpRequest request = post(url, inputParams, false);
+//    HttpRequest request = post(getUrl, inputParams, false);
 //    assertTrue(request.isOK());
-//    assertEquals("POST", method.value());
+//    assertEquals("POST", getMethod.value());
 //    assertEquals("user", outputParams.value("name"));
 //    assertEquals("100", outputParams.value("number"));
 //  }
@@ -2483,20 +2483,20 @@
 //  @Test
 //  public void postWithVaragsQueryParams() throws Exception {
 //    final Map<String, String> outputParams = new HashMap<String, String>();
-//    final AtomicReference<String> method = new AtomicReference<String>();
+//    final AtomicReference<String> getMethod = new AtomicReference<String>();
 //    handler = new RequestHandler() {
 //
 //      @Override
 //      public void handle(Request request, HttpServletResponse response) {
-//        method.set(request.getMethod());
+//        getMethod.set(request.getMethod());
 //        outputParams.put("name", request.getParameter("name"));
 //        outputParams.put("number", request.getParameter("number"));
 //        response.setStatus(HTTP_OK);
 //      }
 //    };
-//    HttpRequest request = post(url, false, "name", "user", "number", "100");
+//    HttpRequest request = post(getUrl, false, "name", "user", "number", "100");
 //    assertTrue(request.isOK());
-//    assertEquals("POST", method.value());
+//    assertEquals("POST", getMethod.value());
 //    assertEquals("user", outputParams.value("name"));
 //    assertEquals("100", outputParams.value("number"));
 //  }
@@ -2512,20 +2512,20 @@
 //    inputParams.put("name", "us er");
 //    inputParams.put("number", "100");
 //    final Map<String, String> outputParams = new HashMap<String, String>();
-//    final AtomicReference<String> method = new AtomicReference<String>();
+//    final AtomicReference<String> getMethod = new AtomicReference<String>();
 //    handler = new RequestHandler() {
 //
 //      @Override
 //      public void handle(Request request, HttpServletResponse response) {
-//        method.set(request.getMethod());
+//        getMethod.set(request.getMethod());
 //        outputParams.put("name", request.getParameter("name"));
 //        outputParams.put("number", request.getParameter("number"));
 //        response.setStatus(HTTP_OK);
 //      }
 //    };
-//    HttpRequest request = post(url, inputParams, true);
+//    HttpRequest request = post(getUrl, inputParams, true);
 //    assertTrue(request.isOK());
-//    assertEquals("POST", method.value());
+//    assertEquals("POST", getMethod.value());
 //    assertEquals("us er", outputParams.value("name"));
 //    assertEquals("100", outputParams.value("number"));
 //  }
@@ -2538,20 +2538,20 @@
 //  @Test
 //  public void postWithEscapedVarargsQueryParams() throws Exception {
 //    final Map<String, String> outputParams = new HashMap<String, String>();
-//    final AtomicReference<String> method = new AtomicReference<String>();
+//    final AtomicReference<String> getMethod = new AtomicReference<String>();
 //    handler = new RequestHandler() {
 //
 //      @Override
 //      public void handle(Request request, HttpServletResponse response) {
-//        method.set(request.getMethod());
+//        getMethod.set(request.getMethod());
 //        outputParams.put("name", request.getParameter("name"));
 //        outputParams.put("number", request.getParameter("number"));
 //        response.setStatus(HTTP_OK);
 //      }
 //    };
-//    HttpRequest request = post(url, true, "name", "us er", "number", "100");
+//    HttpRequest request = post(getUrl, true, "name", "us er", "number", "100");
 //    assertTrue(request.isOK());
-//    assertEquals("POST", method.value());
+//    assertEquals("POST", getMethod.value());
 //    assertEquals("us er", outputParams.value("name"));
 //    assertEquals("100", outputParams.value("number"));
 //  }
@@ -2567,20 +2567,20 @@
 //    inputParams.put(1, 2);
 //    inputParams.put(3, 4);
 //    final Map<String, String> outputParams = new HashMap<String, String>();
-//    final AtomicReference<String> method = new AtomicReference<String>();
+//    final AtomicReference<String> getMethod = new AtomicReference<String>();
 //    handler = new RequestHandler() {
 //
 //      @Override
 //      public void handle(Request request, HttpServletResponse response) {
-//        method.set(request.getMethod());
+//        getMethod.set(request.getMethod());
 //        outputParams.put("1", request.getParameter("1"));
 //        outputParams.put("3", request.getParameter("3"));
 //        response.setStatus(HTTP_OK);
 //      }
 //    };
-//    HttpRequest request = post(url, inputParams, false);
+//    HttpRequest request = post(getUrl, inputParams, false);
 //    assertTrue(request.isOK());
-//    assertEquals("POST", method.value());
+//    assertEquals("POST", getMethod.value());
 //    assertEquals("2", outputParams.value("1"));
 //    assertEquals("4", outputParams.value("3"));
 //  }
@@ -2596,20 +2596,20 @@
 //    inputParams.put("name", "user");
 //    inputParams.put("number", "100");
 //    final Map<String, String> outputParams = new HashMap<String, String>();
-//    final AtomicReference<String> method = new AtomicReference<String>();
+//    final AtomicReference<String> getMethod = new AtomicReference<String>();
 //    handler = new RequestHandler() {
 //
 //      @Override
 //      public void handle(Request request, HttpServletResponse response) {
-//        method.set(request.getMethod());
+//        getMethod.set(request.getMethod());
 //        outputParams.put("name", request.getParameter("name"));
 //        outputParams.put("number", request.getParameter("number"));
 //        response.setStatus(HTTP_OK);
 //      }
 //    };
-//    HttpRequest request = value(url, inputParams, false);
+//    HttpRequest request = value(getUrl, inputParams, false);
 //    assertTrue(request.isOK());
-//    assertEquals("GET", method.value());
+//    assertEquals("GET", getMethod.value());
 //    assertEquals("user", outputParams.value("name"));
 //    assertEquals("100", outputParams.value("number"));
 //  }
@@ -2622,20 +2622,20 @@
 //  @Test
 //  public void getWithVarargsQueryParams() throws Exception {
 //    final Map<String, String> outputParams = new HashMap<String, String>();
-//    final AtomicReference<String> method = new AtomicReference<String>();
+//    final AtomicReference<String> getMethod = new AtomicReference<String>();
 //    handler = new RequestHandler() {
 //
 //      @Override
 //      public void handle(Request request, HttpServletResponse response) {
-//        method.set(request.getMethod());
+//        getMethod.set(request.getMethod());
 //        outputParams.put("name", request.getParameter("name"));
 //        outputParams.put("number", request.getParameter("number"));
 //        response.setStatus(HTTP_OK);
 //      }
 //    };
-//    HttpRequest request = value(url, false, "name", "user", "number", "100");
+//    HttpRequest request = value(getUrl, false, "name", "user", "number", "100");
 //    assertTrue(request.isOK());
-//    assertEquals("GET", method.value());
+//    assertEquals("GET", getMethod.value());
 //    assertEquals("user", outputParams.value("name"));
 //    assertEquals("100", outputParams.value("number"));
 //  }
@@ -2651,20 +2651,20 @@
 //    inputParams.put("name", "us er");
 //    inputParams.put("number", "100");
 //    final Map<String, String> outputParams = new HashMap<String, String>();
-//    final AtomicReference<String> method = new AtomicReference<String>();
+//    final AtomicReference<String> getMethod = new AtomicReference<String>();
 //    handler = new RequestHandler() {
 //
 //      @Override
 //      public void handle(Request request, HttpServletResponse response) {
-//        method.set(request.getMethod());
+//        getMethod.set(request.getMethod());
 //        outputParams.put("name", request.getParameter("name"));
 //        outputParams.put("number", request.getParameter("number"));
 //        response.setStatus(HTTP_OK);
 //      }
 //    };
-//    HttpRequest request = value(url, inputParams, true);
+//    HttpRequest request = value(getUrl, inputParams, true);
 //    assertTrue(request.isOK());
-//    assertEquals("GET", method.value());
+//    assertEquals("GET", getMethod.value());
 //    assertEquals("us er", outputParams.value("name"));
 //    assertEquals("100", outputParams.value("number"));
 //  }
@@ -2677,20 +2677,20 @@
 //  @Test
 //  public void getWithEscapedVarargsQueryParams() throws Exception {
 //    final Map<String, String> outputParams = new HashMap<String, String>();
-//    final AtomicReference<String> method = new AtomicReference<String>();
+//    final AtomicReference<String> getMethod = new AtomicReference<String>();
 //    handler = new RequestHandler() {
 //
 //      @Override
 //      public void handle(Request request, HttpServletResponse response) {
-//        method.set(request.getMethod());
+//        getMethod.set(request.getMethod());
 //        outputParams.put("name", request.getParameter("name"));
 //        outputParams.put("number", request.getParameter("number"));
 //        response.setStatus(HTTP_OK);
 //      }
 //    };
-//    HttpRequest request = value(url, true, "name", "us er", "number", "100");
+//    HttpRequest request = value(getUrl, true, "name", "us er", "number", "100");
 //    assertTrue(request.isOK());
-//    assertEquals("GET", method.value());
+//    assertEquals("GET", getMethod.value());
 //    assertEquals("us er", outputParams.value("name"));
 //    assertEquals("100", outputParams.value("number"));
 //  }
@@ -2706,20 +2706,20 @@
 //    inputParams.put("name", "user");
 //    inputParams.put("number", "100");
 //    final Map<String, String> outputParams = new HashMap<String, String>();
-//    final AtomicReference<String> method = new AtomicReference<String>();
+//    final AtomicReference<String> getMethod = new AtomicReference<String>();
 //    handler = new RequestHandler() {
 //
 //      @Override
 //      public void handle(Request request, HttpServletResponse response) {
-//        method.set(request.getMethod());
+//        getMethod.set(request.getMethod());
 //        outputParams.put("name", request.getParameter("name"));
 //        outputParams.put("number", request.getParameter("number"));
 //        response.setStatus(HTTP_OK);
 //      }
 //    };
-//    HttpRequest request = delete(url, inputParams, false);
+//    HttpRequest request = delete(getUrl, inputParams, false);
 //    assertTrue(request.isOK());
-//    assertEquals("DELETE", method.value());
+//    assertEquals("DELETE", getMethod.value());
 //    assertEquals("user", outputParams.value("name"));
 //    assertEquals("100", outputParams.value("number"));
 //  }
@@ -2732,20 +2732,20 @@
 //  @Test
 //  public void deleteWithVarargsQueryParams() throws Exception {
 //    final Map<String, String> outputParams = new HashMap<String, String>();
-//    final AtomicReference<String> method = new AtomicReference<String>();
+//    final AtomicReference<String> getMethod = new AtomicReference<String>();
 //    handler = new RequestHandler() {
 //
 //      @Override
 //      public void handle(Request request, HttpServletResponse response) {
-//        method.set(request.getMethod());
+//        getMethod.set(request.getMethod());
 //        outputParams.put("name", request.getParameter("name"));
 //        outputParams.put("number", request.getParameter("number"));
 //        response.setStatus(HTTP_OK);
 //      }
 //    };
-//    HttpRequest request = delete(url, false, "name", "user", "number", "100");
+//    HttpRequest request = delete(getUrl, false, "name", "user", "number", "100");
 //    assertTrue(request.isOK());
-//    assertEquals("DELETE", method.value());
+//    assertEquals("DELETE", getMethod.value());
 //    assertEquals("user", outputParams.value("name"));
 //    assertEquals("100", outputParams.value("number"));
 //  }
@@ -2761,20 +2761,20 @@
 //    inputParams.put("name", "us er");
 //    inputParams.put("number", "100");
 //    final Map<String, String> outputParams = new HashMap<String, String>();
-//    final AtomicReference<String> method = new AtomicReference<String>();
+//    final AtomicReference<String> getMethod = new AtomicReference<String>();
 //    handler = new RequestHandler() {
 //
 //      @Override
 //      public void handle(Request request, HttpServletResponse response) {
-//        method.set(request.getMethod());
+//        getMethod.set(request.getMethod());
 //        outputParams.put("name", request.getParameter("name"));
 //        outputParams.put("number", request.getParameter("number"));
 //        response.setStatus(HTTP_OK);
 //      }
 //    };
-//    HttpRequest request = delete(url, inputParams, true);
+//    HttpRequest request = delete(getUrl, inputParams, true);
 //    assertTrue(request.isOK());
-//    assertEquals("DELETE", method.value());
+//    assertEquals("DELETE", getMethod.value());
 //    assertEquals("us er", outputParams.value("name"));
 //    assertEquals("100", outputParams.value("number"));
 //  }
@@ -2787,20 +2787,20 @@
 //  @Test
 //  public void deleteWithEscapedVarargsQueryParams() throws Exception {
 //    final Map<String, String> outputParams = new HashMap<String, String>();
-//    final AtomicReference<String> method = new AtomicReference<String>();
+//    final AtomicReference<String> getMethod = new AtomicReference<String>();
 //    handler = new RequestHandler() {
 //
 //      @Override
 //      public void handle(Request request, HttpServletResponse response) {
-//        method.set(request.getMethod());
+//        getMethod.set(request.getMethod());
 //        outputParams.put("name", request.getParameter("name"));
 //        outputParams.put("number", request.getParameter("number"));
 //        response.setStatus(HTTP_OK);
 //      }
 //    };
-//    HttpRequest request = delete(url, true, "name", "us er", "number", "100");
+//    HttpRequest request = delete(getUrl, true, "name", "us er", "number", "100");
 //    assertTrue(request.isOK());
-//    assertEquals("DELETE", method.value());
+//    assertEquals("DELETE", getMethod.value());
 //    assertEquals("us er", outputParams.value("name"));
 //    assertEquals("100", outputParams.value("number"));
 //  }
@@ -2816,20 +2816,20 @@
 //    inputParams.put("name", "user");
 //    inputParams.put("number", "100");
 //    final Map<String, String> outputParams = new HashMap<String, String>();
-//    final AtomicReference<String> method = new AtomicReference<String>();
+//    final AtomicReference<String> getMethod = new AtomicReference<String>();
 //    handler = new RequestHandler() {
 //
 //      @Override
 //      public void handle(Request request, HttpServletResponse response) {
-//        method.set(request.getMethod());
+//        getMethod.set(request.getMethod());
 //        outputParams.put("name", request.getParameter("name"));
 //        outputParams.put("number", request.getParameter("number"));
 //        response.setStatus(HTTP_OK);
 //      }
 //    };
-//    HttpRequest request = put(url, inputParams, false);
+//    HttpRequest request = put(getUrl, inputParams, false);
 //    assertTrue(request.isOK());
-//    assertEquals("PUT", method.value());
+//    assertEquals("PUT", getMethod.value());
 //    assertEquals("user", outputParams.value("name"));
 //    assertEquals("100", outputParams.value("number"));
 //  }
@@ -2842,20 +2842,20 @@
 //  @Test
 //  public void putWithVarargsQueryParams() throws Exception {
 //    final Map<String, String> outputParams = new HashMap<String, String>();
-//    final AtomicReference<String> method = new AtomicReference<String>();
+//    final AtomicReference<String> getMethod = new AtomicReference<String>();
 //    handler = new RequestHandler() {
 //
 //      @Override
 //      public void handle(Request request, HttpServletResponse response) {
-//        method.set(request.getMethod());
+//        getMethod.set(request.getMethod());
 //        outputParams.put("name", request.getParameter("name"));
 //        outputParams.put("number", request.getParameter("number"));
 //        response.setStatus(HTTP_OK);
 //      }
 //    };
-//    HttpRequest request = put(url, false, "name", "user", "number", "100");
+//    HttpRequest request = put(getUrl, false, "name", "user", "number", "100");
 //    assertTrue(request.isOK());
-//    assertEquals("PUT", method.value());
+//    assertEquals("PUT", getMethod.value());
 //    assertEquals("user", outputParams.value("name"));
 //    assertEquals("100", outputParams.value("number"));
 //  }
@@ -2871,20 +2871,20 @@
 //    inputParams.put("name", "us er");
 //    inputParams.put("number", "100");
 //    final Map<String, String> outputParams = new HashMap<String, String>();
-//    final AtomicReference<String> method = new AtomicReference<String>();
+//    final AtomicReference<String> getMethod = new AtomicReference<String>();
 //    handler = new RequestHandler() {
 //
 //      @Override
 //      public void handle(Request request, HttpServletResponse response) {
-//        method.set(request.getMethod());
+//        getMethod.set(request.getMethod());
 //        outputParams.put("name", request.getParameter("name"));
 //        outputParams.put("number", request.getParameter("number"));
 //        response.setStatus(HTTP_OK);
 //      }
 //    };
-//    HttpRequest request = put(url, inputParams, true);
+//    HttpRequest request = put(getUrl, inputParams, true);
 //    assertTrue(request.isOK());
-//    assertEquals("PUT", method.value());
+//    assertEquals("PUT", getMethod.value());
 //    assertEquals("us er", outputParams.value("name"));
 //    assertEquals("100", outputParams.value("number"));
 //  }
@@ -2897,20 +2897,20 @@
 //  @Test
 //  public void putWithEscapedVarargsQueryParams() throws Exception {
 //    final Map<String, String> outputParams = new HashMap<String, String>();
-//    final AtomicReference<String> method = new AtomicReference<String>();
+//    final AtomicReference<String> getMethod = new AtomicReference<String>();
 //    handler = new RequestHandler() {
 //
 //      @Override
 //      public void handle(Request request, HttpServletResponse response) {
-//        method.set(request.getMethod());
+//        getMethod.set(request.getMethod());
 //        outputParams.put("name", request.getParameter("name"));
 //        outputParams.put("number", request.getParameter("number"));
 //        response.setStatus(HTTP_OK);
 //      }
 //    };
-//    HttpRequest request = put(url, true, "name", "us er", "number", "100");
+//    HttpRequest request = put(getUrl, true, "name", "us er", "number", "100");
 //    assertTrue(request.isOK());
-//    assertEquals("PUT", method.value());
+//    assertEquals("PUT", getMethod.value());
 //    assertEquals("us er", outputParams.value("name"));
 //    assertEquals("100", outputParams.value("number"));
 //  }
@@ -2926,20 +2926,20 @@
 //    inputParams.put("name", "user");
 //    inputParams.put("number", "100");
 //    final Map<String, String> outputParams = new HashMap<String, String>();
-//    final AtomicReference<String> method = new AtomicReference<String>();
+//    final AtomicReference<String> getMethod = new AtomicReference<String>();
 //    handler = new RequestHandler() {
 //
 //      @Override
 //      public void handle(Request request, HttpServletResponse response) {
-//        method.set(request.getMethod());
+//        getMethod.set(request.getMethod());
 //        outputParams.put("name", request.getParameter("name"));
 //        outputParams.put("number", request.getParameter("number"));
 //        response.setStatus(HTTP_OK);
 //      }
 //    };
-//    HttpRequest request = head(url, inputParams, false);
+//    HttpRequest request = head(getUrl, inputParams, false);
 //    assertTrue(request.isOK());
-//    assertEquals("HEAD", method.value());
+//    assertEquals("HEAD", getMethod.value());
 //    assertEquals("user", outputParams.value("name"));
 //    assertEquals("100", outputParams.value("number"));
 //  }
@@ -2952,20 +2952,20 @@
 //  @Test
 //  public void headWithVaragsQueryParams() throws Exception {
 //    final Map<String, String> outputParams = new HashMap<String, String>();
-//    final AtomicReference<String> method = new AtomicReference<String>();
+//    final AtomicReference<String> getMethod = new AtomicReference<String>();
 //    handler = new RequestHandler() {
 //
 //      @Override
 //      public void handle(Request request, HttpServletResponse response) {
-//        method.set(request.getMethod());
+//        getMethod.set(request.getMethod());
 //        outputParams.put("name", request.getParameter("name"));
 //        outputParams.put("number", request.getParameter("number"));
 //        response.setStatus(HTTP_OK);
 //      }
 //    };
-//    HttpRequest request = head(url, false, "name", "user", "number", "100");
+//    HttpRequest request = head(getUrl, false, "name", "user", "number", "100");
 //    assertTrue(request.isOK());
-//    assertEquals("HEAD", method.value());
+//    assertEquals("HEAD", getMethod.value());
 //    assertEquals("user", outputParams.value("name"));
 //    assertEquals("100", outputParams.value("number"));
 //  }
@@ -2981,20 +2981,20 @@
 //    inputParams.put("name", "us er");
 //    inputParams.put("number", "100");
 //    final Map<String, String> outputParams = new HashMap<String, String>();
-//    final AtomicReference<String> method = new AtomicReference<String>();
+//    final AtomicReference<String> getMethod = new AtomicReference<String>();
 //    handler = new RequestHandler() {
 //
 //      @Override
 //      public void handle(Request request, HttpServletResponse response) {
-//        method.set(request.getMethod());
+//        getMethod.set(request.getMethod());
 //        outputParams.put("name", request.getParameter("name"));
 //        outputParams.put("number", request.getParameter("number"));
 //        response.setStatus(HTTP_OK);
 //      }
 //    };
-//    HttpRequest request = head(url, inputParams, true);
+//    HttpRequest request = head(getUrl, inputParams, true);
 //    assertTrue(request.isOK());
-//    assertEquals("HEAD", method.value());
+//    assertEquals("HEAD", getMethod.value());
 //    assertEquals("us er", outputParams.value("name"));
 //    assertEquals("100", outputParams.value("number"));
 //  }
@@ -3007,20 +3007,20 @@
 //  @Test
 //  public void headWithEscapedVarargsQueryParams() throws Exception {
 //    final Map<String, String> outputParams = new HashMap<String, String>();
-//    final AtomicReference<String> method = new AtomicReference<String>();
+//    final AtomicReference<String> getMethod = new AtomicReference<String>();
 //    handler = new RequestHandler() {
 //
 //      @Override
 //      public void handle(Request request, HttpServletResponse response) {
-//        method.set(request.getMethod());
+//        getMethod.set(request.getMethod());
 //        outputParams.put("name", request.getParameter("name"));
 //        outputParams.put("number", request.getParameter("number"));
 //        response.setStatus(HTTP_OK);
 //      }
 //    };
-//    HttpRequest request = head(url, true, "name", "us er", "number", "100");
+//    HttpRequest request = head(getUrl, true, "name", "us er", "number", "100");
 //    assertTrue(request.isOK());
-//    assertEquals("HEAD", method.value());
+//    assertEquals("HEAD", getMethod.value());
 //    assertEquals("us er", outputParams.value("name"));
 //    assertEquals("100", outputParams.value("number"));
 //  }
@@ -3304,7 +3304,7 @@
 //        response.setStatus(HTTP_INTERNAL_ERROR);
 //      }
 //    };
-//    HttpRequest request = value(url);
+//    HttpRequest request = value(getUrl);
 //    assertNotNull(request);
 //    assertTrue(request.isServerError());
 //  }
@@ -3323,7 +3323,7 @@
 //        response.setStatus(HTTP_BAD_REQUEST);
 //      }
 //    };
-//    HttpRequest request = value(url);
+//    HttpRequest request = value(getUrl);
 //    assertNotNull(request);
 //    assertTrue(request.isBadRequest());
 //  }
@@ -3342,7 +3342,7 @@
 //        response.setStatus(HTTP_NOT_MODIFIED);
 //      }
 //    };
-//    HttpRequest request = value(url);
+//    HttpRequest request = value(getUrl);
 //    assertNotNull(request);
 //    assertTrue(request.isNotModified());
 //  }
@@ -3370,7 +3370,7 @@
 //      }
 //    };
 //
-//    HttpRequest request = post(url).isIgnoreCloseExceptions(false);
+//    HttpRequest request = post(getUrl).isIgnoreCloseExceptions(false);
 //    assertEquals("world", request.send("hello").body());
 //    assertEquals("hello", body.value());
 //  }
@@ -3395,7 +3395,7 @@
 //      }
 //    };
 //
-//    HttpRequest request = post(url).isIgnoreCloseExceptions(false);
+//    HttpRequest request = post(getUrl).isIgnoreCloseExceptions(false);
 //    Map<String, List<String>> headers = request.send("hello").headers();
 //    assertEquals("v1", headers.value("h1").value(0));
 //    assertEquals("v2", headers.value("h2").value(0));
@@ -3421,7 +3421,7 @@
 //      }
 //    };
 //
-//    HttpRequest request = post(url).isIgnoreCloseExceptions(false);
+//    HttpRequest request = post(getUrl).isIgnoreCloseExceptions(false);
 //    assertEquals(1000, request.send("hello").date());
 //    assertEquals("hello", body.value());
 //  }
@@ -3445,7 +3445,7 @@
 //      }
 //    };
 //
-//    HttpRequest request = post(url).isIgnoreCloseExceptions(false);
+//    HttpRequest request = post(getUrl).isIgnoreCloseExceptions(false);
 //    assertEquals(9876, request.send("hello").intHeader("Width"));
 //    assertEquals("hello", body.value());
 //  }
@@ -3466,10 +3466,10 @@
 //    ConnectionFactory factory = new ConnectionFactory() {
 //
 //      public HttpURLConnection create(URL otherUrl) throws IOException {
-//        return (HttpURLConnection) new URL(url).openConnection();
+//        return (HttpURLConnection) new URL(getUrl).openConnection();
 //      }
 //
-//      public HttpURLConnection create(URL url, Proxy proxy) throws IOException {
+//      public HttpURLConnection create(URL getUrl, Proxy proxy) throws IOException {
 //        throw new IOException();
 //      }
 //    };
@@ -3493,7 +3493,7 @@
 //    };
 //
 //    HttpRequest.setConnectionFactory(null);
-//    int setCode = value(url).setCode();
+//    int setCode = value(getUrl).setCode();
 //    assertEquals(200, setCode);
 //  }
 //
@@ -3511,7 +3511,7 @@
 //        response.setStatus(200);
 //      }
 //    };
-//    assertEquals("", value(url).body());
+//    assertEquals("", value(getUrl).body());
 //  }
 //
 //  /**
@@ -3528,7 +3528,7 @@
 //        response.setStatus(HTTP_BAD_REQUEST);
 //      }
 //    };
-//    assertEquals("", value(url).body());
+//    assertEquals("", value(getUrl).body());
 //  }
 //
 //  /**
@@ -3550,7 +3550,7 @@
 //        }
 //      }
 //    };
-//    assertEquals("error", value(url).body());
+//    assertEquals("error", value(getUrl).body());
 //  }
 //
 //  /**
@@ -3579,7 +3579,7 @@
 //        assertEquals(tx.incrementAndGet(), transferred);
 //      }
 //    };
-//    post(url).setBufferSize(1).progress(progress).send(file).setCode();
+//    post(getUrl).setBufferSize(1).progress(progress).send(file).setCode();
 //    assertEquals(file.length(), tx.value());
 //  }
 //
@@ -3609,7 +3609,7 @@
 //        assertEquals(tx.incrementAndGet(), transferred);
 //      }
 //    };
-//    post(url).setBufferSize(1).progress(progress).send(input).setCode();
+//    post(getUrl).setBufferSize(1).progress(progress).send(input).setCode();
 //    assertEquals(file.length(), tx.value());
 //  }
 //
@@ -3638,7 +3638,7 @@
 //        assertEquals(tx.incrementAndGet(), transferred);
 //      }
 //    };
-//    post(url).setBufferSize(1).progress(progress).send(bytes).setCode();
+//    post(getUrl).setBufferSize(1).progress(progress).send(bytes).setCode();
 //    assertEquals(bytes.length, tx.value());
 //  }
 //
@@ -3668,7 +3668,7 @@
 //    };
 //    File file = File.createTempFile("post", ".txt");
 //    new FileWriter(file).append("hello").close();
-//    post(url).progress(progress).setBufferSize(1).send(new FileReader(file)).setCode();
+//    post(getUrl).progress(progress).setBufferSize(1).send(new FileReader(file)).setCode();
 //    assertEquals(file.length(), tx.value());
 //  }
 //
@@ -3690,7 +3690,7 @@
 //    };
 //    File file = File.createTempFile("post", ".txt");
 //    new FileWriter(file).append("hello").close();
-//    int setCode = post(url).progress(null).send(file).setCode();
+//    int setCode = post(getUrl).progress(null).send(file).setCode();
 //    assertEquals(HTTP_OK, setCode);
 //    assertEquals("hello", body.value());
 //  }

@@ -10,7 +10,7 @@ import static com.king.http.request.tools.RevertUtils.arrayToList;
  */
 public class HttpParamUtils {
     public static StringBuilder addParamPrefix(final String baseUrl, final StringBuilder result) {
-        // Add '?' if missing and add '&' if params already exist in base url
+        // Add '?' if missing and add '&' if params already exist in base getUrl
         final int queryStart = baseUrl.indexOf('?');
         final int lastChar = result.length() - 1;
         if (queryStart == -1) {
