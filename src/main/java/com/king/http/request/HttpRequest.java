@@ -10,10 +10,7 @@ import com.king.http.request.operation.CloseOperation;
 import com.king.http.request.operation.FlushOperation;
 import com.king.http.request.protocol.Headers;
 import com.king.http.request.protocol.Method;
-import com.king.http.request.tools.Commons;
-import com.king.http.request.tools.HttpParamUtils;
-import com.king.http.request.tools.HttpPathUtils;
-import com.king.http.request.tools.ProxyUtils;
+import com.king.http.request.tools.*;
 import com.king.jdk.net.HttpURLConnection;
 import com.king.jdk.net.URL;
 import com.king.jdk.net.URLEncoder;
@@ -34,12 +31,6 @@ import java.util.Map.Entry;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.zip.GZIPInputStream;
-
-import static com.king.http.request.tools.Commons.BOUNDARY;
-import static com.king.http.request.tools.Commons.CRLF;
-import static com.king.http.request.tools.HttpPathUtils.append;
-import static com.king.http.request.tools.ValidateUtils.getValidCharset;
-import static com.king.jdk.net.HttpURLConnection.*;
 
 /**
  * A fluid interface for making HTTP requests using an underlying
@@ -107,12 +98,12 @@ public class HttpRequest {
     }
 
     public static HttpRequest req(Method method, final CharSequence baseUrl, final Map<?, ?> params, final boolean encode) throws URISyntaxException {
-        String url = append(baseUrl, params);
+        String url = HttpPathUtils.append(baseUrl, params);
         return req(method, encode ? HttpPathUtils.encode(url) : url);
     }
 
     public static HttpRequest req(Method method, final CharSequence baseUrl, final boolean encode, final Object... params) throws URISyntaxException {
-        String url = append(baseUrl, params);
+        String url = HttpPathUtils.append(baseUrl, params);
         return req(method, encode ? HttpPathUtils.encode(url) : url);
     }
     /*-end******************请求**********************-*/
@@ -238,49 +229,49 @@ public class HttpRequest {
     }
 
     public boolean isOK() throws HttpRequestException {
-        return HTTP_OK == code();
+        return HttpURLConnection.HTTP_OK == code();
     }
 
     /**
      * @return true if 201, false otherwise
      */
     public boolean isCreated() throws HttpRequestException {
-        return HTTP_CREATED == code();
+        return HttpURLConnection.HTTP_CREATED == code();
     }
 
     /**
      * @return true if 204, false otherwise
      */
     public boolean isNoContent() throws HttpRequestException {
-        return HTTP_NO_CONTENT == code();
+        return HttpURLConnection.HTTP_NO_CONTENT == code();
     }
 
     /**
      * @return true if 500, false otherwise
      */
     public boolean isServerError() throws HttpRequestException {
-        return HTTP_INTERNAL_ERROR == code();
+        return HttpURLConnection.HTTP_INTERNAL_ERROR == code();
     }
 
     /**
      * @return true if 400, false otherwise
      */
     public boolean isBadRequest() throws HttpRequestException {
-        return HTTP_BAD_REQUEST == code();
+        return HttpURLConnection.HTTP_BAD_REQUEST == code();
     }
 
     /**
      * @return true if 404, false otherwise
      */
     public boolean isNotFound() throws HttpRequestException {
-        return HTTP_NOT_FOUND == code();
+        return HttpURLConnection.HTTP_NOT_FOUND == code();
     }
 
     /**
      * @return true if 304, false otherwise
      */
     public boolean isNotModified() throws HttpRequestException {
-        return HTTP_NOT_MODIFIED == code();
+        return HttpURLConnection.HTTP_NOT_MODIFIED == code();
     }
 
     /**
@@ -390,7 +381,7 @@ public class HttpRequest {
         final ByteArrayOutputStream output = byteStream();
         try {
             copy(buffer(), output);
-            return output.toString(getValidCharset(charset));
+            return output.toString(ValidateUtils.getValidCharset(charset));
         } catch (IOException e) {
             throw new HttpRequestException(e);
         }
@@ -479,7 +470,7 @@ public class HttpRequest {
      */
     public InputStream stream() throws HttpRequestException {
         InputStream stream;
-        if (code() < HTTP_BAD_REQUEST) {
+        if (code() < HttpURLConnection.HTTP_BAD_REQUEST) {
             try {
                 stream = getConnection().getInputStream();
             } catch (IOException e) {
@@ -523,7 +514,7 @@ public class HttpRequest {
      */
     public InputStreamReader reader(final String charset) throws HttpRequestException {
         try {
-            return new InputStreamReader(stream(), getValidCharset(charset));
+            return new InputStreamReader(stream(), ValidateUtils.getValidCharset(charset));
         } catch (UnsupportedEncodingException e) {
             throw new HttpRequestException(e);
         }
@@ -1274,7 +1265,7 @@ public class HttpRequest {
         if (output == null)
             return this;
         if (multipart)
-            output.write(CRLF + "--" + BOUNDARY + "--" + CRLF);
+            output.write(Commons.CRLF + "--" + Commons.BOUNDARY + "--" + Commons.CRLF);
         if (ignoreCloseExceptions)
             try {
                 output.close();
@@ -1329,9 +1320,9 @@ public class HttpRequest {
         if (!multipart) {
             multipart = true;
             contentType(Headers.CONTENT_TYPE_MULTIPART.value()).openOutput();
-            output.write("--" + BOUNDARY + CRLF);
+            output.write("--" + Commons.BOUNDARY + Commons.CRLF);
         } else {
-            output.write(CRLF + "--" + BOUNDARY + CRLF);
+            output.write(Commons.CRLF + "--" + Commons.BOUNDARY + Commons.CRLF);
         }
         return this;
     }
@@ -1357,7 +1348,7 @@ public class HttpRequest {
         if (contentType != null) {
             partHeader(Headers.CONTENT_TYPE.value(), contentType);
         }
-        return send(CRLF);
+        return send(Commons.CRLF);
     }
 
     /**
@@ -1456,7 +1447,7 @@ public class HttpRequest {
      * Write a multipart header to the response body
      */
     public HttpRequest partHeader(final String name, final String value) throws HttpRequestException {
-        return send(name).send(": ").send(value).send(CRLF);
+        return send(name).send(": ").send(value).send(Commons.CRLF);
     }
 
     /**
@@ -1591,7 +1582,7 @@ public class HttpRequest {
             contentType(Headers.FORM_URL_ENCODED.value(), charset);
             form = true;
         }
-        charset = getValidCharset(charset);
+        charset = ValidateUtils.getValidCharset(charset);
         try {
             openOutput();
             if (!first) {

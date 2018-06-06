@@ -10,9 +10,6 @@ import java.io.IOException;
 import java.util.Iterator;
 import java.util.Map;
 
-import static com.king.http.request.tools.HttpParamUtils.addParam;
-import static com.king.http.request.tools.HttpParamUtils.addParamPrefix;
-
 /**
  * @author 金龙
  * @date 2018/5/31 at 上午11:13
@@ -89,17 +86,17 @@ public class HttpPathUtils {
         final StringBuilder result = new StringBuilder(baseUrl);
 
         addPathSeparator(baseUrl, result);
-        addParamPrefix(baseUrl, result);
+        HttpParamUtils.addParamPrefix(baseUrl, result);
 
         Map.Entry<?, ?> entry;
         Iterator<?> iterator = params.entrySet().iterator();
         entry = (Map.Entry<?, ?>) iterator.next();
-        addParam(entry.getKey().toString(), entry.getValue(), result);
+        HttpParamUtils.addParam(entry.getKey().toString(), entry.getValue(), result);
 
         while (iterator.hasNext()) {
             result.append('&');
             entry = (Map.Entry<?, ?>) iterator.next();
-            addParam(entry.getKey().toString(), entry.getValue(), result);
+            HttpParamUtils.addParam(entry.getKey().toString(), entry.getValue(), result);
         }
 
         return result.toString();
@@ -128,13 +125,13 @@ public class HttpPathUtils {
         final StringBuilder result = new StringBuilder(baseUrl);
 
         addPathSeparator(baseUrl, result);
-        addParamPrefix(baseUrl, result);
+        HttpParamUtils.addParamPrefix(baseUrl, result);
 
-        addParam(params[0], params[1], result);
+        HttpParamUtils.addParam(params[0], params[1], result);
 
         for (int i = 2; i < params.length; i += 2) {
             result.append('&');
-            addParam(params[i], params[i + 1], result);
+            HttpParamUtils.addParam(params[i], params[i + 1], result);
         }
 
         return result.toString();

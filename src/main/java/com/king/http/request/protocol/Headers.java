@@ -1,6 +1,6 @@
 package com.king.http.request.protocol;
 
-import static com.king.http.request.tools.Commons.BOUNDARY;
+import com.king.http.request.tools.Commons;
 
 /**
  * @author 金龙
@@ -29,7 +29,7 @@ public enum Headers {
     SERVER("Server"),
     USER_AGENT("User-Agent"),
     PARAM_CHARSET("getCharset"),
-    CONTENT_TYPE_MULTIPART("multipart/form-data; boundary=" + BOUNDARY);
+    CONTENT_TYPE_MULTIPART("multipart/form-data; boundary=" + Commons.BOUNDARY);
 
 
     private String header;

@@ -2,8 +2,6 @@ package com.king.http.request.tools;
 
 import java.util.Iterator;
 
-import static com.king.http.request.tools.RevertUtils.arrayToList;
-
 /**
  * @author 金龙
  * @date 2018/5/31 at 上午11:14
@@ -23,7 +21,7 @@ public class HttpParamUtils {
 
     public static StringBuilder addParam(final Object key, Object value, final StringBuilder result) {
         if (value != null && value.getClass().isArray()) {
-            value = arrayToList(value);
+            value = RevertUtils.arrayToList(value);
         }
 
         if (value instanceof Iterable<?>) {
