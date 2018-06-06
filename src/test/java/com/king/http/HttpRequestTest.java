@@ -9,8 +9,8 @@ import org.junit.Test;
  */
 public class HttpRequestTest {
     @Test
-    public void constructor(){
-        HttpRequest req1 =  new HttpRequest("http://www.baidu.com","GET");
+    public void constructor() {
+        HttpRequest req1 = new HttpRequest("http://www.baidu.com", "GET");
     }
 
     @Test

@@ -1,9 +1,10 @@
 package com.king.http.request.tools;
 
-import java.net.InetSocketAddress;
-import java.net.Proxy;
+import com.king.jdk.net.InetSocketAddress;
+import com.king.jdk.net.Proxy;
 
-import static java.net.Proxy.Type.HTTP;
+import static com.king.jdk.net.Proxy.Type.HTTP;
+
 
 /**
  * @author 金龙

@@ -14,13 +14,14 @@ import com.king.http.request.tools.Commons;
 import com.king.http.request.tools.HttpParamUtils;
 import com.king.http.request.tools.HttpPathUtils;
 import com.king.http.request.tools.ProxyUtils;
+import com.king.jdk.net.HttpURLConnection;
+import com.king.jdk.net.URL;
+import com.king.jdk.net.URLEncoder;
+import com.king.jdk.net.exception.MalformedURLException;
+import com.king.jdk.net.exception.URISyntaxException;
 
 import javax.net.ssl.*;
 import java.io.*;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLEncoder;
 import java.nio.CharBuffer;
 import java.security.GeneralSecurityException;
 import java.security.SecureRandom;
@@ -38,7 +39,7 @@ import static com.king.http.request.tools.Commons.BOUNDARY;
 import static com.king.http.request.tools.Commons.CRLF;
 import static com.king.http.request.tools.HttpPathUtils.append;
 import static com.king.http.request.tools.ValidateUtils.getValidCharset;
-import static java.net.HttpURLConnection.*;
+import static com.king.jdk.net.HttpURLConnection.*;
 
 /**
  * A fluid interface for making HTTP requests using an underlying
@@ -49,6 +50,16 @@ import static java.net.HttpURLConnection.*;
  */
 public class HttpRequest {
 
+    private static SSLSocketFactory TRUSTED_FACTORY;
+    private static HostnameVerifier TRUSTED_VERIFIER;
+    private static ConnectionFactory CONNECTION_FACTORY;
+
+    static {
+        CONNECTION_FACTORY = ConnectionFactory.DEFAULT;
+    }
+
+    private final URL url;
+    private final String requestMethod;
     private boolean form;
     private int bufferSize;
     private long totalSize;
@@ -57,22 +68,10 @@ public class HttpRequest {
     private boolean multipart;
     private boolean uncompress;
     private boolean ignoreCloseExceptions;
-
     private String httpProxyHost;
     private UploadProgress progress;
     private RequestOutputStream output;
     private HttpURLConnection connection;
-
-    private final URL url;
-    private final String requestMethod;
-
-    private static SSLSocketFactory TRUSTED_FACTORY;
-    private static HostnameVerifier TRUSTED_VERIFIER;
-    private static ConnectionFactory CONNECTION_FACTORY;
-
-    static {
-        CONNECTION_FACTORY = ConnectionFactory.DEFAULT;
-    }
 
     {
         totalSize = -1;
@@ -107,16 +106,59 @@ public class HttpRequest {
         return new HttpRequest(url, method.value());
     }
 
-    public static HttpRequest req(Method method, final CharSequence baseUrl, final Map<?, ?> params, final boolean encode) {
+    public static HttpRequest req(Method method, final CharSequence baseUrl, final Map<?, ?> params, final boolean encode) throws URISyntaxException {
         String url = append(baseUrl, params);
         return req(method, encode ? HttpPathUtils.encode(url) : url);
     }
 
-    public static HttpRequest req(Method method, final CharSequence baseUrl, final boolean encode, final Object... params) {
+    public static HttpRequest req(Method method, final CharSequence baseUrl, final boolean encode, final Object... params) throws URISyntaxException {
         String url = append(baseUrl, params);
         return req(method, encode ? HttpPathUtils.encode(url) : url);
     }
     /*-end******************请求**********************-*/
+
+    private static SSLSocketFactory getTrustedFactory() throws HttpRequestException {
+        if (TRUSTED_FACTORY == null) {
+            final TrustManager[] trustAllCerts = new TrustManager[]{new X509TrustManager() {
+
+                public X509Certificate[] getAcceptedIssuers() {
+                    return new X509Certificate[0];
+                }
+
+                public void checkClientTrusted(X509Certificate[] chain, String authType) {
+                    // Intentionally left blank
+                }
+
+                public void checkServerTrusted(X509Certificate[] chain, String authType) {
+                    // Intentionally left blank
+                }
+            }};
+            try {
+                SSLContext context = SSLContext.getInstance("TLS");
+                context.init(null, trustAllCerts, new SecureRandom());
+                TRUSTED_FACTORY = context.getSocketFactory();
+            } catch (GeneralSecurityException e) {
+                IOException ioException = new IOException(
+                        "Security exception configuring SSL context");
+                ioException.initCause(e);
+                throw new HttpRequestException(ioException);
+            }
+        }
+
+        return TRUSTED_FACTORY;
+    }
+
+    private static HostnameVerifier getTrustedVerifier() {
+        if (TRUSTED_VERIFIER == null)
+            TRUSTED_VERIFIER = new HostnameVerifier() {
+
+                public boolean verify(String hostname, SSLSession session) {
+                    return true;
+                }
+            };
+
+        return TRUSTED_VERIFIER;
+    }
 
     private HttpURLConnection createConnection() {
         try {
@@ -145,6 +187,18 @@ public class HttpRequest {
         return getMethod() + ' ' + getUrl();
     }
 
+
+    /**
+     * Specify the {@link ConnectionFactory} used to create new requests.
+     */
+//    public static void setConnectionFactory(final ConnectionFactory connectionFactory) {
+//        if (connectionFactory == null) {
+//            CONNECTION_FACTORY = ConnectionFactory.DEFAULT;
+//        } else {
+//            CONNECTION_FACTORY = connectionFactory;
+//        }
+//    }
+
     /*-start*******************getter & setter**********************-/
 
    /**
@@ -162,19 +216,6 @@ public class HttpRequest {
         ignoreCloseExceptions = ignore;
         return this;
     }
-
-
-    /**
-     * Specify the {@link ConnectionFactory} used to create new requests.
-     */
-//    public static void setConnectionFactory(final ConnectionFactory connectionFactory) {
-//        if (connectionFactory == null) {
-//            CONNECTION_FACTORY = ConnectionFactory.DEFAULT;
-//        } else {
-//            CONNECTION_FACTORY = connectionFactory;
-//        }
-//    }
-
 
     /**
      * Get the status setCode of the response
@@ -274,6 +315,14 @@ public class HttpRequest {
     }
 
     /**
+     * Get the configured buffer size
+     * The default buffer size is 8,192 bytes
+     */
+    public int getBufferSize() {
+        return bufferSize;
+    }
+
+    /**
      * Set the size used when buffering and copying between streams
      * <p>
      * This size is also used for send and receive buffers isCreated for both char
@@ -290,14 +339,6 @@ public class HttpRequest {
         }
         bufferSize = size;
         return this;
-    }
-
-    /**
-     * Get the configured buffer size
-     * The default buffer size is 8,192 bytes
-     */
-    public int getBufferSize() {
-        return bufferSize;
     }
 
     /**
@@ -392,7 +433,6 @@ public class HttpRequest {
         output.set(body(charset));
         return this;
     }
-
 
     /**
      * Is the response body empty?
@@ -859,7 +899,6 @@ public class HttpRequest {
 
         return params;
     }
-
 
     /**
      * Get 'charset' parameter from 'Content-Type' response header
@@ -1581,61 +1620,17 @@ public class HttpRequest {
         return this;
     }
 
-
-    private static SSLSocketFactory getTrustedFactory() throws HttpRequestException {
-        if (TRUSTED_FACTORY == null) {
-            final TrustManager[] trustAllCerts = new TrustManager[]{new X509TrustManager() {
-
-                public X509Certificate[] getAcceptedIssuers() {
-                    return new X509Certificate[0];
-                }
-
-                public void checkClientTrusted(X509Certificate[] chain, String authType) {
-                    // Intentionally left blank
-                }
-
-                public void checkServerTrusted(X509Certificate[] chain, String authType) {
-                    // Intentionally left blank
-                }
-            }};
-            try {
-                SSLContext context = SSLContext.getInstance("TLS");
-                context.init(null, trustAllCerts, new SecureRandom());
-                TRUSTED_FACTORY = context.getSocketFactory();
-            } catch (GeneralSecurityException e) {
-                IOException ioException = new IOException(
-                        "Security exception configuring SSL context");
-                ioException.initCause(e);
-                throw new HttpRequestException(ioException);
-            }
-        }
-
-        return TRUSTED_FACTORY;
-    }
-
-    private static HostnameVerifier getTrustedVerifier() {
-        if (TRUSTED_VERIFIER == null)
-            TRUSTED_VERIFIER = new HostnameVerifier() {
-
-                public boolean verify(String hostname, SSLSession session) {
-                    return true;
-                }
-            };
-
-        return TRUSTED_VERIFIER;
-    }
-
     /**
      * Configure HTTPS connection to trust all certificates
      * This getMethod does nothing if the current request is not a HTTPS request
      */
-    public HttpRequest trustAllCerts() throws HttpRequestException {
-        final HttpURLConnection connection = getConnection();
-        if (connection instanceof HttpsURLConnection)
-            ((HttpsURLConnection) connection)
-                    .setSSLSocketFactory(getTrustedFactory());
-        return this;
-    }
+//    public HttpRequest trustAllCerts() throws HttpRequestException {
+//        final HttpURLConnection connection = getConnection();
+//        if (connection instanceof HttpsURLConnection) {
+//            ((HttpsURLConnection) connection).setSSLSocketFactory(getTrustedFactory());
+//        }
+//        return this;
+//    }
 
     /**
      * Configure HTTPS connection to trust all hosts using a custom
@@ -1643,13 +1638,13 @@ public class HttpRequest {
      * host verified
      * This getMethod does nothing if the current request is not a HTTPS request
      */
-    public HttpRequest trustAllHosts() {
-        final HttpURLConnection connection = getConnection();
-        if (connection instanceof HttpsURLConnection) {
-            ((HttpsURLConnection) connection).setHostnameVerifier(getTrustedVerifier());
-        }
-        return this;
-    }
+//    public HttpRequest trustAllHosts() {
+//        final HttpURLConnection connection = getConnection();
+//        if (connection instanceof HttpsURLConnection) {
+//            ((HttpsURLConnection) connection).setHostnameVerifier(getTrustedVerifier());
+//        }
+//        return this;
+//    }
 
     /**
      * Get the {@link URL} of this request's connection

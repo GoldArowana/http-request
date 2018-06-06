@@ -2,11 +2,11 @@ package com.king.http.request.tools;
 
 import com.king.http.request.HttpRequest;
 import com.king.http.request.eception.HttpRequestException;
+import com.king.jdk.net.URI;
+import com.king.jdk.net.URL;
+import com.king.jdk.net.exception.URISyntaxException;
 
 import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.net.URL;
 import java.util.Iterator;
 import java.util.Map;
 
@@ -42,7 +42,7 @@ public class HttpPathUtils {
      * @return encoded URL
      * @throws HttpRequestException
      */
-    public static String encode(final CharSequence url) throws HttpRequestException {
+    public static String encode(final CharSequence url) throws HttpRequestException, URISyntaxException {
         URL parsed;
         try {
             parsed = new URL(url.toString());

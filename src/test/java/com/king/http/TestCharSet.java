@@ -1,7 +1,6 @@
 package com.king.http;
 
 import com.king.http.request.lib.CharSet;
-import com.king.http.request.HttpRequest;
 import org.junit.Test;
 
 

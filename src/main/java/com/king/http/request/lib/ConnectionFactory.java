@@ -1,9 +1,10 @@
 package com.king.http.request.lib;
 
+import com.king.jdk.net.HttpURLConnection;
+import com.king.jdk.net.Proxy;
+import com.king.jdk.net.URL;
+
 import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.Proxy;
-import java.net.URL;
 
 public interface ConnectionFactory {
 
